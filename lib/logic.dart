@@ -2,107 +2,132 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
-
-
-
 class ReservationFormLogic extends ChangeNotifier {
+  int ticketWeekEntirePrice = 8;
+  int ticketWeekHalfPrice = 5;
+  int ticketWeekLatePrice = 3;
+  int ticketSaturdayEntirePrice = 12;
+  int ticketSaturdayHalfPrice = 8;
+  int ticketSaturdayLatePrice = 5;
+  int ticketSundayEntirePrice = 14;
+  int ticketSundayHalfPrice = 10;
+  int ticketSundayLatePrice = 6;
+  int discountPrice = 3;
+  int beachChairPrice = 3;
+  int beachBundlePrice = 9;
 
-  int ticketWeekEntire = 8;
-  int ticketWeekHalf = 5;
-  int ticketWeekLate = 3;
-  int ticketSaturdayEntire = 12;
-  int ticketSaturdayHalf = 8;
-  int ticketSaturdayLate = 5;
-  int ticketSundayEntire = 14;
-  int ticketSundayHalf = 10;
-  int ticketSundayLate = 6;
-  int discount = 3;
-  int beachChair = 3;
-  int beachBundle = 9;
-
-
-  Map reservationMap = {
+  static Map reservationMap = {
     'id_token': '',
     'date': '',
+    'day_slot': 'entire', //entire, half, late
     'tickets': 0,
     'discount': 0,
-    'day_slot': 'entire', //entire, half, late
-    'beach_chair': 0,
+    'beach_chairs': 0, //TODO capire perchè non aggiunge beach chair
     'beach_bundle': [],
     'total_cost': 0,
   };
 
-  int _totalCost = 0;
+  int _totalCost = 1;
+
+  List<int> get beachBundleList {
+    List<int> list = [...reservationMap['beach_bundle']];
+    return list;
+  }
+
+  void addBeachBundle(int beacBundleNumber) {
+    if (beachBundleList.contains(beacBundleNumber + 1) == false) {
+      reservationMap['beach_bundle'].add(beacBundleNumber + 1);
+    }
+    notifyListeners();
+  }
+
+
 
   List<String> weekDays = [
     'Monday',
-    'Tuesday'
-        'Wednesday',
+    'Tuesday',
+    'Wednesday',
     'Thursday',
     'Friday',
   ];
 
-
-
-  String returnDayName () {
-    String reservationDay = DateFormat('EEEE').format(reservationMap['date']);
-    return reservationDay ;
+  void addValueToReservation(String key, dynamic value) {
+    reservationMap[key] = value;
+    notifyListeners();
   }
 
-  void CalculateTotalCost() {
+  String returnDayName() {
+    String reservationDay = DateFormat('EEEE').format(DateTime.parse(reservationMap['date']));
+    return reservationDay;
+
+  }
+
+  void calculateTotalCost() {
+    _totalCost += (int.parse(reservationMap['beach_chair']) * beachChairPrice);
+    _totalCost += (beachBundleList.length) * beachBundlePrice;
+
 
     if (weekDays.contains(returnDayName)) {
-
-      if (reservationMap['day_slot']['entire_day']) {
-        _totalCost += int.parse(reservationMap['tickets'] * ticketWeekEntire) -
-            int.parse(reservationMap[discount] * discount);
+      if (reservationMap['day_slot']['entire']) {
+        _totalCost +=
+            int.parse(reservationMap['tickets'] * ticketWeekEntirePrice) -
+                int.parse(reservationMap['discount'] * discountPrice);
       }
-      if (reservationMap['day_slot']['half_day']) {
-        _totalCost += int.parse(reservationMap['tickets'] * ticketWeekHalf) -
-            int.parse(reservationMap[discount] * discount);
+      if (reservationMap['day_slot']['half']) {
+        _totalCost +=
+            int.parse(reservationMap['tickets'] * ticketWeekHalfPrice) -
+                int.parse(reservationMap['discount'] * discountPrice);
       }
-      if (reservationMap['day_slot']['late_day']) {
-        _totalCost += int.parse(reservationMap['tickets'] * ticketWeekLate) -
-            int.parse(reservationMap[discount] * discount);
+      if (reservationMap['day_slot']['late']) {
+        _totalCost +=
+            int.parse(reservationMap['tickets'] * ticketWeekLatePrice) -
+                int.parse(reservationMap['discount'] * discountPrice);
       }
     }
 
     if (returnDayName == 'Saturday') {
-
-      if (reservationMap['day_slot']['entire_day']) {
-        _totalCost += int.parse(reservationMap['tickets'] * ticketSaturdayEntire) -
-            int.parse(reservationMap[discount] * discount);
+      if (reservationMap['day_slot']['entire']) {
+        _totalCost +=
+            int.parse(reservationMap['tickets'] * ticketSaturdayEntirePrice) -
+                int.parse(reservationMap['discount'] * discountPrice);
       }
-      if (reservationMap['day_slot']['half_day']) {
-        _totalCost += int.parse(reservationMap['tickets'] * ticketSaturdayHalf) -
-            int.parse(reservationMap[discount] *  discount);
+      if (reservationMap['day_slot']['half']) {
+        _totalCost +=
+            int.parse(reservationMap['tickets'] * ticketSaturdayHalfPrice) -
+                int.parse(reservationMap['discount'] * discountPrice);
       }
-      if (reservationMap['day_slot']['late_day']) {
-        _totalCost += int.parse(reservationMap['tickets'] * ticketSaturdayLate) -
-            int.parse(reservationMap[discount] * discount);
+      if (reservationMap['day_slot']['late']) {
+        _totalCost +=
+            int.parse(reservationMap['tickets'] * ticketSaturdayLatePrice) -
+                int.parse(reservationMap['discount'] * discountPrice);
       }
     }
 
     if (returnDayName == 'Sunday') {
-
       if (reservationMap['day_slot']['entire_day']) {
-        _totalCost += int.parse(reservationMap['tickets'] * ticketSundayEntire) -
-            int.parse(reservationMap[discount] * discount);
+        _totalCost +=
+            int.parse(reservationMap['tickets'] * ticketSundayEntirePrice) -
+                int.parse(reservationMap['discount'] * discountPrice);
       }
       if (reservationMap['day_slot']['half_day']) {
-        _totalCost += int.parse(reservationMap['tickets'] * ticketSundayHalf) -
-            int.parse(reservationMap[discount] *  discount);
+        _totalCost +=
+            int.parse(reservationMap['tickets'] * ticketSundayHalfPrice) -
+                int.parse(reservationMap['discount'] * discountPrice);
       }
       if (reservationMap['day_slot']['late_day']) {
-        _totalCost += int.parse(reservationMap['tickets'] * ticketSundayLate) -
-            int.parse(reservationMap[discount] * discount);
+        _totalCost +=
+            int.parse(reservationMap['tickets'] * ticketSundayLatePrice) -
+                int.parse(reservationMap['discount'] * discountPrice);
       }
     }
 
+    //addValueToReservation('total_cost', _totalCost);
 
+    reservationMap['total_cost'] += _totalCost;
+
+    notifyListeners();
   }
 }
-
 
 // class ReservationFormLogic {
 //   void CalculateTotalCost(String price, String item) {
