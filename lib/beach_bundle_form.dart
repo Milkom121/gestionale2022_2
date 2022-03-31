@@ -39,12 +39,12 @@ class BeachBundleForm extends StatelessWidget {
                 child: Consumer<ReservationFormLogic>(
                     builder: (context, _reservationFormLogic, child) {
                   return ListView.builder(
-                    itemCount: _reservationFormLogic.beachBundleList.length,
+                    itemCount: _reservationFormLogic.getBeachBundleList.length,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       return CircleAvatar(
                         radius: 12,
-                        child: Text(_reservationFormLogic.beachBundleList[index]
+                        child: Text(_reservationFormLogic.getBeachBundleList[index]
                             .toString()),
                       );
                     },

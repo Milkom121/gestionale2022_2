@@ -78,6 +78,7 @@ class ReservationScreen extends StatelessWidget {
                           ///DATA///
                           Expanded(
                             child: DateTimePicker(
+
                                 type: DateTimePickerType.date,
                                 dateMask: 'dd MMM, yyyy',
                                 // controller: _timeController,
@@ -89,6 +90,7 @@ class ReservationScreen extends StatelessWidget {
                                 onChanged: (day) {
                                   _reservationFormLogic.addValueToReservation(
                                       'date', day);
+                                  _reservationFormLogic.calculateTotalCost();
 
                                 }),
                           ),
@@ -100,6 +102,7 @@ class ReservationScreen extends StatelessWidget {
                           ///TIPOLOGIA DI BIGLIETTO
                           Expanded(
                             child: FormBuilderChoiceChip<dynamic>(
+
                               decoration: const InputDecoration(
                                   border: InputBorder.none,
                                   label: Text('Choose day slot')),
@@ -116,14 +119,14 @@ class ReservationScreen extends StatelessWidget {
                               onChanged: (value) {
                                 if (value == 'late') {
                                   _discountVisibility = false;
+                                  _reservationFormLogic.setDiscountToZero();
                                 } else {
                                   _discountVisibility = true;
                                 }
                                 _reservationFormLogic.addValueToReservation(
                                     'day_slot',
                                     value); //salvo il valore nell'apposito campo della map nel file logic.dart
-                                print(_discountVisibility);
-                                print(ReservationFormLogic.reservationMap['day_slot']);
+                                _reservationFormLogic.calculateTotalCost();
 
                               },
                             ),
@@ -145,6 +148,7 @@ class ReservationScreen extends StatelessWidget {
                                 _reservationFormLogic.addValueToReservation(
                                     'tickets', value);
                                 _reservationFormLogic.calculateTotalCost();
+                                //_reservationFormLogic.calculateTotalCost();
                                 //print(value);
                               },
                             ),
@@ -161,6 +165,7 @@ class ReservationScreen extends StatelessWidget {
                                   _reservationFormLogic.addValueToReservation(
                                       'discount', value);
                                   _reservationFormLogic.calculateTotalCost();
+                                  //_reservationFormLogic.calculateTotalCost();
                                 },
                               ),
                             ),
@@ -183,6 +188,7 @@ class ReservationScreen extends StatelessWidget {
                                       'beach_chairs', value);
                                   print(ReservationFormLogic.reservationMap['beach_chairs']);
                                   _reservationFormLogic.calculateTotalCost();
+                                  //_reservationFormLogic.calculateTotalCost();
                                 }),
                           ),
 
@@ -211,8 +217,9 @@ class ReservationScreen extends StatelessWidget {
                         alignment: Alignment.bottomCenter,
                         child: ElevatedButton(
                           onPressed: () {
+                            _reservationFormLogic.calculateTotalCost();
                             print(ReservationFormLogic.reservationMap);
-                            print(_reservationFormLogic.returnDayName());
+
                           },
                           child: const Text('Save'),
                         ),
