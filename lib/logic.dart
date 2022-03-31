@@ -41,7 +41,20 @@ class ReservationFormLogic extends ChangeNotifier {
     notifyListeners();
   }
 
+  void removeBeachBundle(int beacBundleNumber) {
+    if (beachBundleList.contains(beacBundleNumber + 1)) {
+      reservationMap['beach_bundle'].remove(beacBundleNumber + 1);
+    }
+    notifyListeners();
+  }
 
+  void removeAllBeachBundle(){
+    reservationMap['beach_bundle'].clear();
+  }
+
+ void notifyListener (){
+    notifyListeners();
+}
 
   List<String> weekDays = [
     'Monday',
