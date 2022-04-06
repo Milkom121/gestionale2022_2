@@ -29,6 +29,7 @@ class _IncDecWidgetState extends State<IncDecWidget> {
         Padding(
           padding: const EdgeInsets.only(left: 42.0),
           child: CountStepper(
+
             iconColor: Theme.of(context).primaryColor,
             defaultValue: 0,
             // max: 100,

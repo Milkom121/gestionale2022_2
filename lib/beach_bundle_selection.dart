@@ -32,12 +32,10 @@ class BeachBundleSelection extends StatelessWidget {
                       child: GestureDetector(
                         onTap: () {
                           _reservationFormLogic.addBeachBundle (index);
-                          print(ReservationFormLogic.reservationMap['beach_bundle']);
 
                           },//quando premo un cerchio aggiungo il numero alla prenotazione
                         onLongPress: () {
                           _reservationFormLogic.removeBeachBundle(index);
-                          print(_reservationFormLogic.beachBundleList);
 
                         },
                         child: CircleAvatar(
@@ -58,9 +56,9 @@ class BeachBundleSelection extends StatelessWidget {
             icon: const Icon(Icons.check),
             onPressed: () {
               Navigator.pop(context);
-              print(_reservationFormLogic.beachBundleList);
-              _reservationFormLogic.notifyListener();
-              // _reservationFormLogic.calculateTotalCost();
+              print(_reservationFormLogic.getBeachBundleList);
+              //_reservationFormLogic.notifyListener();
+               _reservationFormLogic.calculateTotalCost();
             },
           ),
           IconButton(
