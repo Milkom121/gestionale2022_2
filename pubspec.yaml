@@ -40,6 +40,7 @@ dependencies:
   flutter_form_builder: ^7.1.1
   form_builder_validators: ^7.7.0
   count_stepper: ^0.0.4
+  uuid: 3.0.6
 
 
 
@@ -70,7 +71,8 @@ flutter:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
-
+  assets:
+    - assets/images/mainsummer_logo.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

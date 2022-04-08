@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'beach_bundle_selection.dart';
-import 'logic.dart';
+
+import '../new_reservation_form_logic.dart';
+import '../screens/beach_bundle_selection.dart';
 
 class BeachBundleForm extends StatelessWidget {
   const BeachBundleForm({
@@ -10,8 +11,8 @@ class BeachBundleForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<ReservationFormLogic>(
-      create: (_) => ReservationFormLogic(),
+    return ChangeNotifierProvider<NewReservationFormLogic>(
+      create: (_) => NewReservationFormLogic(),
       child: Expanded(
           child: Column(
         children: [
@@ -36,15 +37,15 @@ class BeachBundleForm extends StatelessWidget {
               padding: const EdgeInsets.only(left: 40.0),
               child: SizedBox(
                 height: 33,
-                child: Consumer<ReservationFormLogic>(
-                    builder: (context, _reservationFormLogic, child) {
+                child: Consumer<NewReservationFormLogic>(
+                    builder: (context, _newReservationFormLogic, child) {
                   return ListView.builder(
-                    itemCount: _reservationFormLogic.getBeachBundleList.length,
+                    itemCount: _newReservationFormLogic.getBeachBundleList.length,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       return CircleAvatar(
                         radius: 12,
-                        child: Text(_reservationFormLogic.getBeachBundleList[index]
+                        child: Text(_newReservationFormLogic.getBeachBundleList[index]
                             .toString()),
                       );
                     },

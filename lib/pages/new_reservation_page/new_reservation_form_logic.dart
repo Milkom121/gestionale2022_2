@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
-class ReservationFormLogic extends ChangeNotifier {
+class NewReservationFormLogic extends ChangeNotifier {
   int ticketWeekEntirePrice = 8;
   int ticketWeekHalfPrice = 5;
   int ticketWeekLatePrice = 3;
@@ -20,16 +19,30 @@ class ReservationFormLogic extends ChangeNotifier {
   int beachChairPrice = 3;
   int beachBundlePrice = 9;
 
-  static Map reservationMap = {
+  static Map<String, dynamic> reservationMap = {
     'id_token': '',
     'date': '',
     'day_slot': 'entire', //entire, half, late
     'tickets': 0,
     'discount': 0,
-    'beach_chairs': 0, //TODO capire perchè non aggiunge beach chair
+    'beach_chairs': 0,
     'beach_bundle': [],
     'total_cost': 0,
   };
+
+  void  restoreReservationMap() {
+    reservationMap = {
+      'id_token': '',
+      'date': '',
+      'day_slot': 'entire', //entire, half, late
+      'tickets': 0,
+      'discount': 0,
+      'beach_chairs': 0,
+      'beach_bundle': [],
+      'total_cost': 0,
+    };
+    notifyListeners();
+  }
 
   //int _totalCost = 0;
 
