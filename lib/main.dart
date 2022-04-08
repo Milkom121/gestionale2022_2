@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gestionale2022_2/pages/new_reservation_page/screens/new_reservation_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'pages/all_reservations_page/all_reservations_logic.dart';
@@ -8,6 +7,7 @@ import 'pages/home_page.dart';
 import 'pages/login_page/login_screen.dart';
 import 'pages/login_page/registration_screen.dart';
 import 'pages/new_reservation_page/new_reservation_form_logic.dart';
+import 'pages/new_reservation_page/screens/new_reservation_screen.dart';
 
 void main() {
   runApp(

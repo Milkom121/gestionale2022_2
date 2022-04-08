@@ -1,15 +1,15 @@
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:gestionale2022_2/common_widgets/app_navigation_bar.dart';
-import 'package:gestionale2022_2/models/reservation.dart';
-import 'package:gestionale2022_2/pages/all_reservations_page/all_reservations_logic.dart';
-import 'package:gestionale2022_2/pages/all_reservations_page/all_reservations_screen.dart';
-import 'package:gestionale2022_2/pages/new_reservation_page/widgets/inc_dec_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../../common_widgets/app_navigation_bar.dart';
+import '../../../models/reservation.dart';
+import '../../all_reservations_page/all_reservations_logic.dart';
+import '../../all_reservations_page/all_reservations_screen.dart';
 import '../new_reservation_form_logic.dart';
 import '../widgets/beach_bundle_form.dart';
+import '../widgets/inc_dec_widget.dart';
 
 class NewReservationScreen extends StatelessWidget {
   NewReservationScreen({Key? key}) : super(key: key);

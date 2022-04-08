@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gestionale2022_2/pages/all_reservations_page/all_reservations_logic.dart';
 import 'package:provider/provider.dart';
 
+import '../../all_reservations_page/all_reservations_logic.dart';
 import '../new_reservation_form_logic.dart';
 
 List poolBundleItemList = List.generate(44, (index) => int);

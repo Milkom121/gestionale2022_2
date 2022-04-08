@@ -1,29 +1,46 @@
 import 'package:flutter/cupertino.dart';
-import 'package:gestionale2022_2/models/reservation.dart';
+
+import '../../models/reservation.dart';
+
 
 class AllReservationLogic extends ChangeNotifier {
 
 
   static final List<Reservation> _allReservations = [
-    // Reservation(1, 1, [4, 6],
-    //     idToken: 'idToken',
-    //     date: '2022-04-07',
-    //     daySlot: 'entire',
-    //     tickets: 1,
-    //     totalCost: 37),
-    //
-    // Reservation(1, 1, [5, 7],
-    //     idToken: 'idToken',
-    //     date: '2022-04-07',
-    //     daySlot: 'entire',
-    //     tickets: 1,
-    //     totalCost: 37)
+    Reservation(1, 1, [4, 6],
+        idToken: 'idToken',
+        date: '2022-04-07',
+        daySlot: 'entire',
+        tickets: 1,
+        totalCost: 37),
+
+    Reservation(1, 1, [5, 7],
+        idToken: 'idToken',
+        date: '2022-04-07',
+        daySlot: 'entire',
+        tickets: 1,
+        totalCost: 37),
+
   ];
 
   List<Reservation> get getAllReservations {
     List<Reservation> list = [..._allReservations];
+    list.sort((reservation1Date, reservation2Date){ //sorting in ascending order
+      return DateTime.parse(reservation1Date.date).compareTo(DateTime.parse(reservation2Date.date));
+    });
     return list;
   }
+
+  List<Reservation>  getReservationByDate (String date) {
+    List<Reservation> list = [];
+    for(Reservation reservation in getAllReservations){
+      if(reservation.date == date){
+        list.add(reservation);
+      }
+    }
+    return list;
+  }
+
 
   List get getAllBeachBundleReserved {
     //TODO: capire come fare per specificare che è una List<int> senza che dia errore
