@@ -18,60 +18,81 @@ class _AllReservationsScreenState extends State<AllReservationsScreen> {
   final int screenIndex = 2;
   bool _searchVisibility = false;
 
+
+
   @override
   Widget build(BuildContext context) {
-    return Consumer<AllReservationLogic>(
-      builder: (context, _allReservationsLogic, child) => Scaffold(
-        appBar: AppBar(
-          actions: [
-            IconButton(
-              onPressed: () {
-                setState(() {
-                  _searchVisibility = !_searchVisibility;
-                });
-              },
-              icon: const Icon(Icons.search),
-            )
-          ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            print('Ecco tutte le postazioni già prenotate: ' +
-                _allReservationsLogic.getAllBeachBundleReserved.toString());
-          },
-        ),
-        bottomNavigationBar: AppNavigationBar(screenIndex),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Visibility(
-                  visible: _searchVisibility,
-                  child: SearchFormWidget(),
-                ),
-                ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: _allReservationsLogic.getAllReservations.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      Reservation _reservationInstance = _allReservationsLogic
-                              .getAllReservations[
-                          index]; //rappresenta la singola prenotazione nella lista delle prenotazioni
-                      return Card(
-                        child: ListTile(
-                          title: Text(_reservationInstance.date),
-                          subtitle: const Text('*customer_name*'),
-                          trailing: Text(
-                              '€ ' + _reservationInstance.totalCost.toString()),
-                        ),
-                      );
-                    }),
+    AllReservationsLogic _reservationsProvider = Provider.of<AllReservationsLogic>(context);
 
-              ],
+    List<Reservation> _currentReservationList = [];
+
+
+
+    return Consumer<AllReservationsLogic>(
+      builder: (context, _allReservationsLogic, child) {
+        List<Reservation> _currentReservationList = _allReservationsLogic.getAllFoundReservations;
+
+          // if(_searchVisibility) {
+          //   _currentReservationList = [...AllReservationsLogic.allFoundReservationsList];
+          // } else {
+          //   _reservationsProvider.clearAllFoundReservationsList();
+          //   _currentReservationList = [..._reservationsProvider.getAllReservations];
+          // }
+          //
+
+
+
+       return  Scaffold(
+          appBar: AppBar(
+            actions: [
+              IconButton(
+                onPressed: () {
+                  setState(() {
+                    _searchVisibility = !_searchVisibility;
+                  });
+                },
+                icon: const Icon(Icons.search),
+              )
+            ],
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              print('Ecco tutte le postazioni già prenotate: ' +
+                  _allReservationsLogic.getAllBeachBundleReserved.toString());
+            },
+          ),
+          bottomNavigationBar: AppNavigationBar(screenIndex),
+          body: SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SearchFormWidget(
+                    setState: () {
+                      setState(() {});
+                    },
+                  ),
+                  ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: _currentReservationList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        Reservation _reservationInstance = _currentReservationList[
+                            index]; //rappresenta la singola prenotazione nella lista delle prenotazioni
+                        return Card(
+                          child: ListTile(
+                            title: Text(_reservationInstance.date),
+                            subtitle: const Text('*customer_name*'),
+                            trailing: Text('€ ' +
+                                _reservationInstance.totalCost.toString()),
+                          ),
+                        );
+                      }),
+                ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

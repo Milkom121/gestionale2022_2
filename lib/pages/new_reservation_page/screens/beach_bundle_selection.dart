@@ -37,7 +37,7 @@ class BeachBundleSelection extends StatelessWidget {
                         onLongPress: () {
                           _reservationFormLogic.removeBeachBundle(index);
                         },
-                        child: Consumer<AllReservationLogic>(
+                        child: Consumer<AllReservationsLogic>(
                           builder: (context, _allReservationLogic, child) =>
                               CircleAvatar(
                                backgroundColor:

@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import '../../models/reservation.dart';
 
 
-class AllReservationLogic extends ChangeNotifier {
+class AllReservationsLogic extends ChangeNotifier {
 
 
   static final List<Reservation> _allReservations = [
@@ -23,6 +23,8 @@ class AllReservationLogic extends ChangeNotifier {
 
   ];
 
+
+
   List<Reservation> get getAllReservations {
     List<Reservation> list = [..._allReservations];
     list.sort((reservation1Date, reservation2Date){ //sorting in ascending order
@@ -31,16 +33,44 @@ class AllReservationLogic extends ChangeNotifier {
     return list;
   }
 
-  List<Reservation>  getReservationByDate (String date) {
+  ///******************************************************///
+  ///CODICE PER LE FUNZIONI DI RICERCA///
+
+  ///questa sarà la lista dove verranno aggiunte le Reservation trovate dalla ricerca
+  static List<Reservation> allFoundReservationsList = [];
+
+  //questo getter fa si che se allFoundReservationsList è vuoto sia restituita ua lista con tutte le prenotazioni di _allReservations, altrimenti la lista allFoundReservationsList
+  List<Reservation> get getAllFoundReservations {
     List<Reservation> list = [];
-    for(Reservation reservation in getAllReservations){
-      if(reservation.date == date){
-        list.add(reservation);
-      }
+    if(allFoundReservationsList.isEmpty){
+      list = [...getAllReservations];
+    } else {
+      list = [... allFoundReservationsList];
     }
     return list;
   }
 
+
+  void clearAllFoundReservationsList (){
+    allFoundReservationsList.clear();
+    notifyListeners();
+  }
+
+  void  getReservationByDate (String date) {
+    List<Reservation> list = [];
+    for(Reservation reservation in getAllReservations){
+      if(reservation.date == date){
+        list.add(reservation);
+        print(reservation.date);
+      }
+    }
+    notifyListeners();
+    allFoundReservationsList =  [... list];
+
+  }
+
+  ///fine codice per la ricerca
+  ///**************************************
 
   List get getAllBeachBundleReserved {
     //TODO: capire come fare per specificare che è una List<int> senza che dia errore

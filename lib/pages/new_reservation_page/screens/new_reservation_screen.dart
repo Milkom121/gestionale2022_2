@@ -198,7 +198,7 @@ class NewReservationScreen extends StatelessWidget {
                               ///metodo mapToReservation della classe Reservation che mi restituisce una istanza di Reservation con tutti i dati
                               /// che posso a sua volta passare al metodo setter addNewReservation della classe AllReservationLogic che lo aggiungerà alla lista
                               /// delle prenotazioni.
-                              AllReservationLogic().addNewReservation (
+                              AllReservationsLogic().addNewReservation (
                                   Reservation.mapToReservation(
                                       NewReservationFormLogic.reservationMap));
 
