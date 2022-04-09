@@ -63,6 +63,7 @@ class AllReservationsLogic extends ChangeNotifier {
         list.add(reservation);
         print(reservation.date);
       }
+
     }
     notifyListeners();
     allFoundReservationsList =  [... list];

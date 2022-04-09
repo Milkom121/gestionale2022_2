@@ -1,31 +1,27 @@
+import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:gestionale2022_2/pages/all_reservations_page/search/search_form_widget.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:gestionale2022_2/pages/new_reservation_page/screens/new_reservation_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../common_widgets/app_navigation_bar.dart';
 import '../../models/reservation.dart';
 import 'all_reservations_logic.dart';
 
-class AllReservationsScreen extends StatefulWidget {
+
+
+
+class AllReservationsScreen extends StatelessWidget {
   static const routeName = '/AllReservationScreen';
-
-  @override
-  State<AllReservationsScreen> createState() => _AllReservationsScreenState();
-}
-
-class _AllReservationsScreenState extends State<AllReservationsScreen> {
-  final int screenIndex = 2;
-  bool _searchVisibility = false;
-
-
-
+  final int screenIndex = 1;
+  final _formKey = GlobalKey<FormBuilderState>();
   @override
   Widget build(BuildContext context) {
     AllReservationsLogic _reservationsProvider = Provider.of<AllReservationsLogic>(context);
 
-    List<Reservation> _currentReservationList = [];
-
+    //List<Reservation> _currentReservationList = [];
 
 
     return Consumer<AllReservationsLogic>(
@@ -44,49 +40,123 @@ class _AllReservationsScreenState extends State<AllReservationsScreen> {
 
        return  Scaffold(
           appBar: AppBar(
-            actions: [
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    _searchVisibility = !_searchVisibility;
-                  });
-                },
-                icon: const Icon(Icons.search),
-              )
-            ],
+
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-              print('Ecco tutte le postazioni già prenotate: ' +
-                  _allReservationsLogic.getAllBeachBundleReserved.toString());
+
+
+              showModalBottomSheet<void>(
+                context: context,
+                builder: (BuildContext context) {
+                  return NewReservationScreen();
+                },
+              );
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) =>  NewReservationScreen()),
+              // );
+
             },
+            child: const Icon(Icons.add),
           ),
           bottomNavigationBar: AppNavigationBar(screenIndex),
           body: SafeArea(
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  SearchFormWidget(
-                    setState: () {
-                      setState(() {});
-                    },
+
+
+
+
+                  // SearchFormWidget(),
+                  ///SEARCH WIDGET - lo tenevo in un altro file ma così facendo non si vedeva la data selezionata
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: FormBuilder(
+                        key: _formKey,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            FormBuilderTextField(
+                              decoration: const InputDecoration(
+                                label: Text('Customer'),
+                                icon: Icon(Icons.person),
+                              ),
+                              name: 'customer',
+                              validator: FormBuilderValidators.compose([
+                                // FormBuilderValidators.required(context),
+                                // FormBuilderValidators.email(context),
+                              ]),
+                            ),
+
+                            DateTimePicker(
+                                initialDate: DateTime.now(),
+                                type: DateTimePickerType.date,
+                                dateMask: 'dd MMM, yyyy',
+                                // controller: _timeController,
+                                //initialValue: _initialValue,
+                                firstDate: DateTime(2018),
+                                lastDate: DateTime(2100),
+                                icon: const Icon(Icons.event),
+                                dateLabelText: 'Date',
+                                onChanged: (day) {
+
+                                  _allReservationsLogic.getReservationByDate(day);
+
+                                  print(AllReservationsLogic.allFoundReservationsList.length);
+
+                                }),
+
+                            const SizedBox(
+                              height: 20,
+                            )
+
+                            // ElevatedButton(
+                            //   onPressed: () {
+                            //     if (_formKey.currentState!.saveAndValidate()) {
+                            //       print(_formKey.currentState!.value['email']);
+                            //       print(_formKey.currentState!.value['password']);
+                            //     }
+                            //   },
+                            //   child: const Text('Save'),
+                            // ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
-                  ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: _currentReservationList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        Reservation _reservationInstance = _currentReservationList[
-                            index]; //rappresenta la singola prenotazione nella lista delle prenotazioni
-                        return Card(
-                          child: ListTile(
-                            title: Text(_reservationInstance.date),
-                            subtitle: const Text('*customer_name*'),
-                            trailing: Text('€ ' +
-                                _reservationInstance.totalCost.toString()),
-                          ),
-                        );
-                      }),
+
+
+
+
+
+
+
+
+
+
+
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: _currentReservationList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          Reservation _reservationInstance = _currentReservationList[
+                              index]; //rappresenta la singola prenotazione nella lista delle prenotazioni
+                          return Card(
+                            child: ListTile(
+                              title: Text(_reservationInstance.date),
+                              subtitle: const Text('*customer_name*'),
+                              trailing: Text('€ ' +
+                                  _reservationInstance.totalCost.toString()),
+                            ),
+                          );
+                        }),
+                  ),
                 ],
               ),
             ),

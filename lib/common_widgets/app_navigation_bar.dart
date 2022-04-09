@@ -51,11 +51,9 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
         Navigator.pushNamed(context, HomePage.routeName);
       }
 
-      if (index == 1 && widget.actualIndex != 1 ) {
-        Navigator.pushNamed(context, NewReservationScreen.routeName);
-      }
 
-      if (index == 2 && widget.actualIndex != 2 ) {
+
+      if (index == 1 && widget.actualIndex != 1 ) {
         Navigator.pushNamed(context, AllReservationsScreen.routeName);
       }
 
@@ -68,6 +66,7 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       items: const <BottomNavigationBarItem>[
+
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
           label: 'Home',
@@ -85,15 +84,16 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
         //   label: 'Pool',
         // ),
 
-        BottomNavigationBarItem(
-          icon: Icon(Icons.post_add_outlined), //Icons.menu_book_rounded
-          label: 'Booking',
-        ),
+        // BottomNavigationBarItem(
+        //   icon: Icon(Icons.post_add_outlined), //Icons.menu_book_rounded
+        //   label: 'Booking',
+        // ),
 
         BottomNavigationBarItem(
           icon: Icon(Icons.menu_book_rounded), //
           label: 'Booking',
         ),
+
         // BottomNavigationBarItem(
         //     icon: Icon(Icons.supervisor_account_outlined),
         //   label: 'Users'
