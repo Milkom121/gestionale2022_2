@@ -29,61 +29,6 @@
 //
 //
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import 'package:flutter/material.dart';
 
 import 'login_screen.dart';
@@ -94,19 +39,21 @@ import 'validator.dart';
 class RegistrationScreen extends StatelessWidget {
   static String routeName = '/RegistrationScreen';
 
-
-
-
-
   //final _registerFormKey = GlobalKey<FormState>();
 
   final _nameTextController = TextEditingController();
+  final _surnameTextController = TextEditingController();
+  final _phoneNumberTextController = TextEditingController();
   final _emailTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
+  final _rePasswordTextController = TextEditingController();
 
   final _focusName = FocusNode();
+  final _focusSurname = FocusNode();
+  final _focusPhoneNumber = FocusNode();
   final _focusEmail = FocusNode();
   final _focusPassword = FocusNode();
+  final _focusRePassword = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -114,6 +61,8 @@ class RegistrationScreen extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         _focusName.unfocus();
+        _focusSurname.unfocus();
+        _focusPhoneNumber.unfocus();
         _focusEmail.unfocus();
         _focusPassword.unfocus();
       },
@@ -136,6 +85,83 @@ class RegistrationScreen extends StatelessWidget {
                   key: _formKey,
                   child: Column(
                     children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                         // const Icon(Icons.person),
+
+                          Expanded(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 25, right: 35),
+                              child: TextFormField(
+                                controller: _nameTextController,
+                                focusNode: _focusName,
+                                validator: (value) => Validator.validateName(
+                                  name: value,
+                                ),
+                                onSaved: (value){},
+                                decoration: InputDecoration(
+                                  icon: const Icon(Icons.person),
+                                  label: const Text('Name'),
+                                  //hintText: "Name",
+                                  errorBorder: UnderlineInputBorder(
+                                    borderRadius: BorderRadius.circular(6.0),
+                                    borderSide: const BorderSide(
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 25, right: 35),
+                              child: TextFormField(
+                                controller: _surnameTextController,
+                                focusNode: _focusSurname,
+                                validator: (value) => Validator.validateName(
+                                  name: value,
+                                ),
+                                onSaved: (value){},
+                                decoration: InputDecoration(
+                                  label: const Text('Surname'),
+                                  errorBorder: UnderlineInputBorder(
+                                    borderRadius: BorderRadius.circular(6.0),
+                                    borderSide: const BorderSide(
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 25, right: 35),
+                        child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          controller: _phoneNumberTextController,
+                          focusNode: _focusPhoneNumber,
+                          validator: (value) =>
+                              Validator.validatePhoneNumber(phoneNumber: value),
+                          onSaved: (value){},
+                          decoration: InputDecoration(
+                            icon: const Icon(Icons.phone),
+                            label: const Text('Phone Number'),
+                            errorBorder: UnderlineInputBorder(
+                              borderRadius: BorderRadius.circular(6.0),
+                              borderSide: const BorderSide(
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
+
+                        ),
+                      ),
                       Padding(
                         padding: const EdgeInsets.only(left: 25, right: 35),
                         child: TextFormField(
@@ -144,18 +170,19 @@ class RegistrationScreen extends StatelessWidget {
                           validator: (value) => Validator.validateEmail(
                             email: value,
                           ),
+                          onSaved: (value){},
                           decoration: InputDecoration(
-                            hintText: "Email",
+                            icon: const Icon(Icons.email),
+                            label: const Text('Email'),
                             errorBorder: UnderlineInputBorder(
                               borderRadius: BorderRadius.circular(6.0),
-                              borderSide: BorderSide(
+                              borderSide: const BorderSide(
                                 color: Colors.red,
                               ),
                             ),
                           ),
                         ),
                       ),
-
                       Padding(
                         padding: const EdgeInsets.only(left: 25, right: 35),
                         child: TextFormField(
@@ -165,11 +192,13 @@ class RegistrationScreen extends StatelessWidget {
                           validator: (value) => Validator.validatePassword(
                             password: value,
                           ),
+                          onSaved: (value){},
                           decoration: InputDecoration(
-                            hintText: "Password",
+                            icon: const Icon(Icons.password),
+                            label: const Text('Password'),
                             errorBorder: UnderlineInputBorder(
                               borderRadius: BorderRadius.circular(6.0),
-                              borderSide: BorderSide(
+                              borderSide: const BorderSide(
                                 color: Colors.red,
                               ),
                             ),
@@ -178,16 +207,39 @@ class RegistrationScreen extends StatelessWidget {
                       ),
 
 
+
+                      Padding(
+                        padding: const EdgeInsets.only(left: 25, right: 35),
+                        child: TextFormField(
+                          controller: _rePasswordTextController,
+                          focusNode: _focusRePassword,
+                          obscureText: true,
+                          validator: (value) {
+                            if (_rePasswordTextController !=
+                                _passwordTextController) {
+                              return 'Password doesn\'t match!';
+                            }
+                          },
+
+                          decoration: InputDecoration(
+                            icon: const Icon(Icons.password),
+                            label: const Text('Re-Password'),
+                            errorBorder: UnderlineInputBorder(
+                              borderRadius: BorderRadius.circular(6.0),
+                              borderSide: const BorderSide(
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                       const SizedBox(
                         height: 50,
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             textStyle: const TextStyle(fontSize: 18)),
-                        onPressed: ()  async {
-
-
-                        },
+                        onPressed: () async {},
                         child: const Text('Register'),
                       ),
                       TextButton(
@@ -195,6 +247,7 @@ class RegistrationScreen extends StatelessWidget {
                           'Already registered? Go to login!',
                         ),
                         onPressed: () {
+
                           Navigator.pushNamed(context, LoginScreen.routeName);
                         },
                       ),
@@ -207,6 +260,16 @@ class RegistrationScreen extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
 
 
 
