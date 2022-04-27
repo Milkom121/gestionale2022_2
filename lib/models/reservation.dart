@@ -12,18 +12,19 @@ class Reservation {
   final String date;
   final String daySlot; //entire, half, late
   final int tickets;
-  int discount = 0;
-  int beachChair = 0;
-  List beachBundle = []; //TODO: capire come fare per specificare che è una List<int> senza che dia errore
+  final int? discount ;
+  final int? beachChairs ;
+  final List<int>? beachBundle ;
   final int totalCost;
 
   Reservation(
     //dati non obbligatori
-    this.discount,
-    this.beachChair,
-    this.beachBundle,
+
     //dati obbligatori
     {
+        required  this.discount,
+        required this.beachChairs,
+        required this.beachBundle,
     //required this.customer,
     required this.idToken,
     required this.date,
@@ -37,9 +38,9 @@ class Reservation {
     //List<int> _beachBundleList = map['beach_bundle'];
     print(map);
     Reservation reservation =  Reservation(
-      map['discount'],
-      map['beach_chairs'],
-      map['beach_bundle'], //_beachBundleList,
+      discount: map['discount'],
+      beachChairs: map['beach_chairs'],
+      beachBundle: map['beach_bundle'], //_beachBundleList,
       // customer: map['customer'],
       idToken: map['id_token'],
       date: map['date'],
@@ -60,7 +61,7 @@ class Reservation {
         'day_slot': reservation.daySlot, //entire, half, late
         'tickets': reservation.tickets,
         'discount': reservation.discount,
-        'beach_chairs': reservation.beachChair,
+        'beach_chairs': reservation.beachChairs,
         'beach_bundle': reservation.beachBundle,
         'total_cost': reservation.totalCost,
       };

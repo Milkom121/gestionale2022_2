@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../all_reservations_page/all_reservations_logic.dart';
 import '../new_reservation_form_logic.dart';
 
-List poolBundleItemList = List.generate(44, (index) => int);
+List beachBundleItemList = List.generate(44, (index) => int);
 
 class BeachBundleSelection extends StatelessWidget {
   const BeachBundleSelection({Key? key}) : super(key: key);
@@ -26,7 +26,7 @@ class BeachBundleSelection extends StatelessWidget {
                       childAspectRatio: 4 / 2,
                       crossAxisSpacing: 20,
                       mainAxisSpacing: 20),
-                  itemCount: poolBundleItemList.length,
+                  itemCount: beachBundleItemList.length,
                   itemBuilder: (BuildContext context, index) {
                     return GridTile(
                       child: GestureDetector(

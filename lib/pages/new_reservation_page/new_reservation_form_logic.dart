@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
 class NewReservationFormLogic extends ChangeNotifier {
+
   int ticketWeekEntirePrice = 8;
   int ticketWeekHalfPrice = 5;
   int ticketWeekLatePrice = 3;
@@ -26,7 +27,7 @@ class NewReservationFormLogic extends ChangeNotifier {
     'tickets': 0,
     'discount': 0,
     'beach_chairs': 0,
-    'beach_bundle': [],
+    'beach_bundle': List<int>.empty(growable: true), // guardare minuto 22 di lezione con Michele del giorno 27/04/22
     'total_cost': 0,
   };
 
@@ -38,7 +39,7 @@ class NewReservationFormLogic extends ChangeNotifier {
       'tickets': 0,
       'discount': 0,
       'beach_chairs': 0,
-      'beach_bundle': [],
+      'beach_bundle': List<int>.empty(growable: true),
       'total_cost': 0,
     };
     notifyListeners();
@@ -164,7 +165,7 @@ class NewReservationFormLogic extends ChangeNotifier {
 
     }
     setTotalCost = _total;
-    notifyListener();
+    notifyListeners();
   }
 
   void addBeachBundle(int beacBundleNumber) {
@@ -185,9 +186,9 @@ class NewReservationFormLogic extends ChangeNotifier {
     reservationMap['beach_bundle'].clear();
   }
 
-  void notifyListener() {
-    notifyListeners();
-  }
+  // void notifyListener() {
+  //   notifyListeners();
+  // }
 
   void addValueToReservation(String key, dynamic value) {
     reservationMap[key] = value;
