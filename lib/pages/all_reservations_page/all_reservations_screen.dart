@@ -68,7 +68,6 @@ class AllReservationsScreen extends StatelessWidget {
 
 
 
-
                   // SearchFormWidget(),
                   ///SEARCH WIDGET - lo tenevo in un altro file ma così facendo non si vedeva la data selezionata
                   Card(

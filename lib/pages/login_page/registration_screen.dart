@@ -29,8 +29,11 @@
 //
 //
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../network/authentication.dart';
+import '../home_page.dart';
 import 'login_screen.dart';
 import 'validator.dart';
 
@@ -215,8 +218,8 @@ class RegistrationScreen extends StatelessWidget {
                           focusNode: _focusRePassword,
                           obscureText: true,
                           validator: (value) {
-                            if (_rePasswordTextController !=
-                                _passwordTextController) {
+                            if (_rePasswordTextController.text !=
+                                _passwordTextController.text) {
                               return 'Password doesn\'t match!';
                             }
                           },
@@ -239,7 +242,20 @@ class RegistrationScreen extends StatelessWidget {
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             textStyle: const TextStyle(fontSize: 18)),
-                        onPressed: () async {},
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            User? user =
+                            await MyFireAuth.registerUsingEmailPassword(
+                              email: _emailTextController.text,
+                              password: _passwordTextController.text,
+                            );
+
+                            if (user != null) {
+                              Navigator.pushNamed(
+                                  context, HomePage.routeName);
+                            }
+                          }
+                        },
                         child: const Text('Register'),
                       ),
                       TextButton(

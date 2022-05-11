@@ -1,6 +1,8 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'firebase_options.dart';
 import 'pages/all_reservations_page/all_reservations_logic.dart';
 import 'pages/all_reservations_page/all_reservations_screen.dart';
 import 'pages/home_page.dart';
@@ -9,7 +11,16 @@ import 'pages/login_page/registration_screen.dart';
 import 'pages/new_reservation_page/new_reservation_form_logic.dart';
 import 'pages/new_reservation_page/screens/new_reservation_screen.dart';
 
-void main() {
+// ...
+
+
+
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized(); /// fondamentale aggiungere questa istruzione per consentire il caricamento dell'app
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(
     MultiProvider(
       providers: [
@@ -27,12 +38,7 @@ void main() {
   );
 }
 
-// void main() {
-//   runApp(
-//      const MyApp(),
-//
-//   );
-// }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

@@ -1,7 +1,10 @@
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:gestionale2022_2/models/users_types.dart';
 
+import '../../network/authentication.dart';
 import '../home_page.dart';
 import 'registration_screen.dart';
 import 'validator.dart';
@@ -100,33 +103,36 @@ class LoginScreen extends StatelessWidget {
                           _focusEmail.unfocus();
                           _focusPassword.unfocus();
 
-                          // if (_formKey.currentState!.validate()) {
-                          //   User? user =
-                          //       await MyFireAuth.signInUsingEmailPassword(
-                          //     email: _emailTextController.text,
-                          //     password: _passwordTextController.text,
-                          //     context: context,
-                          //   );
-                          //
-                          //   if (user != null) {
-                          //     //Navigator.pushNamed(context, HomePage.routeName);
-                          //   } else {
-                          //     SnackBar snackBar = SnackBar(
-                          //       content: TextButton(
-                          //           onPressed: () {
-                          //             Navigator.pushNamed(
-                          //                 context, RegistrationScreen.routeName);
-                          //           },
-                          //           child: const  Text(
-                          //               'Seems your account does not exists yet ;)')),
-                          //     );
-                          //
-                          //     // Find the ScaffoldMessenger in the widget tree
-                          //     // and use it to show a SnackBar.
-                          //     ScaffoldMessenger.of(context)
-                          //         .showSnackBar(snackBar);
-                          //   }
-                          // }
+                          if (_formKey.currentState!.validate()) {
+                            User? user =
+                                await MyFireAuth.signInUsingEmailPassword(
+                              email: _emailTextController.text,
+                              password: _passwordTextController.text,
+                              context: context,
+                            );
+
+                            if (user != null) {
+                             Customer customer =  Customer();
+                             customer.email = user.email; // potrebbe non essere necesaria ma decideremo poi
+                             customer.id = user.uid;
+                             Navigator.pushNamed(context, HomePage.routeName);
+                            } else {
+                              SnackBar snackBar = SnackBar(
+                                content: TextButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                          context, RegistrationScreen.routeName);
+                                    },
+                                    child: const  Text(
+                                        'Seems your account does not exists yet ;)')),
+                              );
+
+                              // Find the ScaffoldMessenger in the widget tree
+                              // and use it to show a SnackBar.
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            }
+                          }
                         },
                         child: const Text('Login'),
                       ),
