@@ -10,55 +10,47 @@ import '../../common_widgets/app_navigation_bar.dart';
 import '../../models/reservation.dart';
 import 'all_reservations_logic.dart';
 
-
-
-
 class AllReservationsScreen extends StatelessWidget {
   static const routeName = '/AllReservationsScreen';
   final int screenIndex = 1;
   final _formKey = GlobalKey<FormBuilderState>();
+
+  AllReservationsScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    AllReservationsLogic _reservationsProvider = Provider.of<AllReservationsLogic>(context);
+    AllReservationsLogic _reservationsProvider =
+        Provider.of<AllReservationsLogic>(context);
 
     //List<Reservation> _currentReservationList = [];
 
-
     return Consumer<AllReservationsLogic>(
       builder: (context, _allReservationsLogic, child) {
-        _allReservationsLogic.clearAllFoundReservationsList();
-        List<Reservation> _currentReservationList = _allReservationsLogic.getAllFoundReservations;
+        Future.delayed(Duration.zero, () async {
+          _allReservationsLogic.clearAllFoundReservationsList();
+        });
 
-          // if(_searchVisibility) {
-          //   _currentReservationList = [...AllReservationsLogic.allFoundReservationsList];
-          // } else {
-          //   _reservationsProvider.clearAllFoundReservationsList();
-          //   _currentReservationList = [..._reservationsProvider.getAllReservations];
-          // }
-          //
+        List<Reservation> _currentReservationList =
+            _allReservationsLogic.getAllFoundReservations;
 
+        // if(_searchVisibility) {
+        //   _currentReservationList = [...AllReservationsLogic.allFoundReservationsList];
+        // } else {
+        //   _reservationsProvider.clearAllFoundReservationsList();
+        //   _currentReservationList = [..._reservationsProvider.getAllReservations];
+        // }
+        //
 
-
-       return  Scaffold(
-          appBar: AppBar(
-
-          ),
+        return Scaffold(
+          appBar: AppBar(title: const Text('Reservations'),),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-
-
-
-
               showModalBottomSheet<dynamic>(
                   isScrollControlled: true,
                   context: context,
                   builder: (BuildContext bc) {
-                    return Wrap(
-                        children: <Widget>[NewReservationScreen()]
-                    );
-                  }
-              );
-
+                    return Wrap(children: <Widget>[NewReservationScreen()]);
+                  });
               // showModalBottomSheet<void>(
               //   context: context,
               //   builder: (BuildContext context) {
@@ -69,7 +61,6 @@ class AllReservationsScreen extends StatelessWidget {
               //   context,
               //   MaterialPageRoute(builder: (context) =>  NewReservationScreen()),
               // );
-
             },
             child: const Icon(Icons.add),
           ),
@@ -111,11 +102,13 @@ class AllReservationsScreen extends StatelessWidget {
                                 icon: const Icon(Icons.event),
                                 dateLabelText: 'Date',
                                 onChanged: (day) {
+                                  _allReservationsLogic
+                                      .getReservationByDate(day);
 
-                                  _allReservationsLogic.getReservationByDate(day);
-
-                                  print(AllReservationsLogic.allFoundReservationsList.length);
-
+                                  print('lkhl ' +
+                                      AllReservationsLogic
+                                          .allFoundReservationsList.length
+                                          .toString());
                                 }),
 
                             const SizedBox(
@@ -137,16 +130,6 @@ class AllReservationsScreen extends StatelessWidget {
                     ),
                   ),
 
-
-
-
-
-
-
-
-
-
-
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ListView.builder(
@@ -154,12 +137,14 @@ class AllReservationsScreen extends StatelessWidget {
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: _currentReservationList.length,
                         itemBuilder: (BuildContext context, int index) {
-                          Reservation _reservationInstance = _currentReservationList[
-                              index]; //rappresenta la singola prenotazione nella lista delle prenotazioni
+                          Reservation _reservationInstance =
+                              _currentReservationList[
+                                  index]; //rappresenta la singola prenotazione nella lista delle prenotazioni
                           return Card(
                             child: ListTile(
                               title: Text(_reservationInstance.date),
-                              subtitle:  Text(_reservationInstance.customer.returnNameAndSurname),
+                              subtitle: Text(_reservationInstance
+                                  .customer.returnNameAndSurname),
                               trailing: Text('€ ' +
                                   _reservationInstance.totalCost.toString()),
                             ),

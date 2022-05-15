@@ -54,7 +54,7 @@ class AllReservationsLogic extends ChangeNotifier {
     return list;
   }
 
-  void clearAllFoundReservationsList() {
+  Future<void> clearAllFoundReservationsList() async {
     allFoundReservationsList = [];
     notifyListeners();
   }
@@ -68,7 +68,7 @@ class AllReservationsLogic extends ChangeNotifier {
       }
     }
 
-    allFoundReservationsList.clear();
+    allFoundReservationsList=[];
     allFoundReservationsList = [...list];
     notifyListeners();
   }
@@ -86,6 +86,7 @@ class AllReservationsLogic extends ChangeNotifier {
     }
     allFoundReservationsList = [];
     allFoundReservationsList = [...list];
+
     notifyListeners();
   }
 

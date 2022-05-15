@@ -32,10 +32,10 @@ class CustomerDetailViewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
 
     var _allReservationsProvider = Provider.of<AllReservationsLogic>(context);
-
+    _allReservationsProvider.getReservationByCustomer(customerDB);
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         elevation: 0,
         backgroundColor: Colors.transparent,
         actions: [

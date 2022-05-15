@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:gestionale2022_2/models/users_types.dart';
 import 'package:intl/intl.dart';
 
 class NewReservationFormLogic extends ChangeNotifier {
@@ -20,7 +21,18 @@ class NewReservationFormLogic extends ChangeNotifier {
   int beachChairPrice = 3;
   int beachBundlePrice = 9;
 
+  String? reservationCustomerNameAndSurname ;
+  void setReservationCustomerNameAndSurname(String returnNameAndSurname) {
+    reservationCustomerNameAndSurname = returnNameAndSurname;
+    notifyListeners();
+  }
+  void restoreReservationCustomerNameAndSurname (){
+    reservationCustomerNameAndSurname = null;
+    notifyListeners();
+  }
+
   static Map<String, dynamic> reservationMap = {
+    'customer' : CustomerDB,
     'id_token': '',
     'date': '',
     'day_slot': 'entire', //entire, half, late
@@ -55,7 +67,7 @@ class NewReservationFormLogic extends ChangeNotifier {
   ///000000000000000000000000000000000000000000000000000000000///
   ///CODICE SPERIMENTALE - creerò dei getter per ogni variabile che mio occorre dalla prenotationMap///
 
-  void set setTotalCost(int totalCost) {
+  set setTotalCost(int totalCost) {
     reservationMap['total_cost'] = totalCost;
   }
 
@@ -194,6 +206,8 @@ class NewReservationFormLogic extends ChangeNotifier {
     reservationMap[key] = value;
     notifyListeners();
   }
+
+
 }
 
 //CODICE NON FUNZIONANTE//
