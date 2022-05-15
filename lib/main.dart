@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'pages/all_reservations_page/all_reservations_logic.dart';
 import 'pages/all_reservations_page/all_reservations_screen.dart';
+import 'pages/customers_page/all_customers_screen.dart';
+import 'pages/customers_page/all_customers_screen_logic.dart';
 import 'pages/home_page.dart';
 import 'pages/login_page/login_screen.dart';
 import 'pages/login_page/registration_screen.dart';
@@ -29,7 +31,10 @@ Future<void> main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => AllReservationsLogic(),
-        )
+        ),
+        ChangeNotifierProvider(
+          create: (_) => AllCustomersLogic(),
+        ),
 
 
       ],
@@ -58,6 +63,8 @@ class MyApp extends StatelessWidget {
         HomePage.routeName: (ctx) =>  HomePage(),
         NewReservationScreen.routeName: (ctx) => NewReservationScreen(),
         AllReservationsScreen.routeName: (ctx) => AllReservationsScreen(),
+        AllCustomersScreen.routeName: (ctx) => AllCustomersScreen(),
+
 
 
       },

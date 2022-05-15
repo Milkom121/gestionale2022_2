@@ -1,4 +1,6 @@
 
+import 'package:gestionale2022_2/models/users_types.dart';
+
 class Reservation {
 
 
@@ -17,6 +19,8 @@ class Reservation {
   final List<int>? beachBundle ;
   final int totalCost;
 
+  final CustomerDB customer;
+
   Reservation(
     //dati non obbligatori
 
@@ -25,7 +29,7 @@ class Reservation {
         required  this.discount,
         required this.beachChairs,
         required this.beachBundle,
-    //required this.customer,
+    required this.customer,
     required this.idToken,
     required this.date,
     required this.daySlot,
@@ -38,6 +42,7 @@ class Reservation {
     //List<int> _beachBundleList = map['beach_bundle'];
     print(map);
     Reservation reservation =  Reservation(
+
       discount: map['discount'],
       beachChairs: map['beach_chairs'],
       beachBundle: map['beach_bundle'], //_beachBundleList,
@@ -47,6 +52,7 @@ class Reservation {
       daySlot: map['day_slot'],
       tickets: map['tickets'],
       totalCost: map['total_cost'],
+      customer: map['customer']
     );
     print (reservation.idToken);
     return reservation;

@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
+import 'package:gestionale2022_2/models/users_types.dart';
+import 'package:gestionale2022_2/pages/customers_page/all_customers_screen_logic.dart';
 
 import '../../models/reservation.dart';
-
 class AllReservationsLogic extends ChangeNotifier {
   static final List<Reservation> _allReservations = [
     Reservation(
+      customer: AllCustomersLogic().allCustomers[0],
         discount: 1,
         beachChairs: 1,
         beachBundle: [4, 6],
@@ -14,6 +16,7 @@ class AllReservationsLogic extends ChangeNotifier {
         tickets: 1,
         totalCost: 37),
     Reservation(
+        customer: AllCustomersLogic().allCustomers[1],
         discount: 1,
         beachChairs: 1,
         beachBundle: [5, 7],
@@ -52,7 +55,7 @@ class AllReservationsLogic extends ChangeNotifier {
   }
 
   void clearAllFoundReservationsList() {
-    allFoundReservationsList.clear();
+    allFoundReservationsList = [];
     notifyListeners();
   }
 
@@ -64,8 +67,26 @@ class AllReservationsLogic extends ChangeNotifier {
         print(reservation.date);
       }
     }
-    notifyListeners();
+
+    allFoundReservationsList.clear();
     allFoundReservationsList = [...list];
+    notifyListeners();
+  }
+
+  void getReservationByCustomer(CustomerDB customer) {
+    List<Reservation> list = [];
+    for (Reservation reservation in getAllReservations) {
+      if (reservation.customer.returnNameAndSurname == customer.returnNameAndSurname) {
+        list.add(reservation);
+      }
+    }
+    if(list.isEmpty){
+      allFoundReservationsList = [];
+      return;
+    }
+    allFoundReservationsList = [];
+    allFoundReservationsList = [...list];
+    notifyListeners();
   }
 
   ///fine codice per la ricerca

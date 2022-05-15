@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 
 import '../pages/all_reservations_page/all_reservations_screen.dart';
+import '../pages/customers_page/all_customers_screen.dart';
 import '../pages/home_page.dart';
-import '../pages/new_reservation_page/screens/new_reservation_screen.dart';
 
 
 
@@ -57,6 +57,12 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
         Navigator.pushNamed(context, AllReservationsScreen.routeName);
       }
 
+      
+
+      if (index == 2 && widget.actualIndex != 2 ) {
+        Navigator.pushNamed(context, AllCustomersScreen.routeName);
+      }
+
 
 
     });
@@ -92,6 +98,11 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
         BottomNavigationBarItem(
           icon: Icon(Icons.menu_book_rounded), //
           label: 'Booking',
+        ),
+
+        BottomNavigationBarItem(
+          icon: Icon(Icons.people), //
+          label: 'Customers',
         ),
 
         // BottomNavigationBarItem(

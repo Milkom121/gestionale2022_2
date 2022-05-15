@@ -14,7 +14,7 @@ import 'all_reservations_logic.dart';
 
 
 class AllReservationsScreen extends StatelessWidget {
-  static const routeName = '/AllReservationScreen';
+  static const routeName = '/AllReservationsScreen';
   final int screenIndex = 1;
   final _formKey = GlobalKey<FormBuilderState>();
   @override
@@ -26,6 +26,7 @@ class AllReservationsScreen extends StatelessWidget {
 
     return Consumer<AllReservationsLogic>(
       builder: (context, _allReservationsLogic, child) {
+        _allReservationsLogic.clearAllFoundReservationsList();
         List<Reservation> _currentReservationList = _allReservationsLogic.getAllFoundReservations;
 
           // if(_searchVisibility) {
@@ -46,12 +47,24 @@ class AllReservationsScreen extends StatelessWidget {
             onPressed: () {
 
 
-              showModalBottomSheet<void>(
-                context: context,
-                builder: (BuildContext context) {
-                  return NewReservationScreen();
-                },
+
+
+              showModalBottomSheet<dynamic>(
+                  isScrollControlled: true,
+                  context: context,
+                  builder: (BuildContext bc) {
+                    return Wrap(
+                        children: <Widget>[NewReservationScreen()]
+                    );
+                  }
               );
+
+              // showModalBottomSheet<void>(
+              //   context: context,
+              //   builder: (BuildContext context) {
+              //     return NewReservationScreen();
+              //   },
+              // );
               // Navigator.push(
               //   context,
               //   MaterialPageRoute(builder: (context) =>  NewReservationScreen()),
@@ -65,9 +78,6 @@ class AllReservationsScreen extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-
-
-
                   // SearchFormWidget(),
                   ///SEARCH WIDGET - lo tenevo in un altro file ma così facendo non si vedeva la data selezionata
                   Card(
@@ -149,7 +159,7 @@ class AllReservationsScreen extends StatelessWidget {
                           return Card(
                             child: ListTile(
                               title: Text(_reservationInstance.date),
-                              subtitle: const Text('*customer_name*'),
+                              subtitle:  Text(_reservationInstance.customer.returnNameAndSurname),
                               trailing: Text('€ ' +
                                   _reservationInstance.totalCost.toString()),
                             ),

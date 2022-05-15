@@ -112,7 +112,7 @@ class LoginScreen extends StatelessWidget {
                             );
 
                             if (user != null) {
-                             Customer customer =  Customer();
+                             CustomerAuth customer =  CustomerAuth();
                              customer.email = user.email; // potrebbe non essere necesaria ma decideremo poi
                              customer.id = user.uid;
                              Navigator.pushNamed(context, HomePage.routeName);
