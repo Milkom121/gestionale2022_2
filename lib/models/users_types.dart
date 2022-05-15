@@ -45,7 +45,7 @@ static CustomerDB fromMap(Map<String, dynamic> customerMap) => CustomerDB(
 
 
 
-class CustomerAuth extends AuthUser {
+class OwnerAuth extends AuthUser {
   //String? phoneNumber;
   // final String id;
   // final String name;
@@ -59,11 +59,11 @@ class CustomerAuth extends AuthUser {
   //   phoneNumber, // named parameter non obbligatorio (in teoria)
   // }) : super(id: id, name: name, surname: surname, email: email);
 
-  CustomerAuth._privateConstructor(); ///costruttore privato
+  OwnerAuth._privateConstructor(); ///costruttore privato
 
-  static final CustomerAuth _instance = CustomerAuth._privateConstructor(); /// instanza di customer che sarà globale in tutta l'app e mi consentirà di accedere ad i dati dello user che ha effettuato l'accesso
+  static final OwnerAuth _instance = OwnerAuth._privateConstructor(); /// instanza di customer che sarà globale in tutta l'app e mi consentirà di accedere ad i dati dello user che ha effettuato l'accesso
 
-  factory CustomerAuth() {
+  factory OwnerAuth() {
     return _instance;
   } /// quandol chiamo questo costruttore "factory" verrà richiamata sempre e solo la medesima instanza di Customer (_instance)
   // static Map<String, dynamic> toMap(CustomerFirebase customer) => <String, dynamic>{

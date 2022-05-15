@@ -221,8 +221,10 @@ class NewReservationScreen extends StatelessWidget {
 
                         ElevatedButton(
                           onPressed: () {
+                            print(_newReservationFormLogic.reservationCustomerNameAndSurname);
                             _newReservationFormLogic.calculateTotalCost();
                             print(NewReservationFormLogic.reservationMap);
+
 
                             //TODO aggiungere logica per aggiungere la prenotazione a all_prenotation_logic
 
@@ -238,7 +240,7 @@ class NewReservationScreen extends StatelessWidget {
                             _newReservationFormLogic.restoreReservationMap();
                             _newReservationFormLogic.restoreReservationCustomerNameAndSurname();
                             Navigator.pop(context);
-                            //print(ReservationFormLogic.reservationMap);
+                            print(NewReservationFormLogic.reservationMap);
 
                             // Navigator.pushNamed(
                             //     context, AllReservationsScreen.routeName);
