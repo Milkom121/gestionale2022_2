@@ -27,7 +27,7 @@ class AllReservationsScreen extends StatelessWidget {
     return Consumer<AllReservationsLogic>(
       builder: (context, _allReservationsLogic, child) {
         Future.delayed(Duration.zero, () async {
-          //_allReservationsLogic.clearAllFoundReservationsList();
+          _allReservationsLogic.clearAllFoundReservationsList();
         });
 
         List<Reservation> _currentReservationList =
