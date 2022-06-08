@@ -1,12 +1,15 @@
+
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:gestionale2022_2/pages/customers_page/all_customers_screen.dart';
+import 'package:gestionale2022_2/pages/customers_page/all_customers_screen_logic.dart';
 import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
 import 'pages/all_reservations_page/all_reservations_logic.dart';
 import 'pages/all_reservations_page/all_reservations_screen.dart';
-import 'pages/customers_page/all_customers_screen.dart';
-import 'pages/customers_page/all_customers_screen_logic.dart';
 import 'pages/home_page.dart';
 import 'pages/login_page/login_screen.dart';
 import 'pages/login_page/registration_screen.dart';
@@ -16,9 +19,18 @@ import 'pages/new_reservation_page/screens/new_reservation_screen.dart';
 // ...
 
 
-
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
+}
 
 Future<void> main() async {
+  HttpOverrides.global = MyHttpOverrides(); //TODO: soluzione teporanea, in produzione occorre xsistemare i problemi del certificato SSL
+
   WidgetsFlutterBinding.ensureInitialized(); /// fondamentale aggiungere questa istruzione per consentire il caricamento dell'app
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -33,7 +45,7 @@ Future<void> main() async {
           create: (_) => AllReservationsLogic(),
         ),
         ChangeNotifierProvider(
-          create: (_) => AllCustomersLogic(),
+          create: (_) => AllCustomersScreenLogic(),
         ),
 
 
@@ -64,6 +76,7 @@ class MyApp extends StatelessWidget {
         NewReservationScreen.routeName: (ctx) => NewReservationScreen(),
         AllReservationsScreen.routeName: (ctx) => AllReservationsScreen(),
         AllCustomersScreen.routeName: (ctx) => AllCustomersScreen(),
+       // AllCustomersScreen2.routeName: (ctx) => AllCustomersScreen2(),
 
 
 

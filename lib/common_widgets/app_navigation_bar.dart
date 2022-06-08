@@ -63,6 +63,10 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
         Navigator.pushNamed(context, AllCustomersScreen.routeName);
       }
 
+      // if (index == 3 && widget.actualIndex != 3 ) {
+      //   Navigator.pushNamed(context, AllCustomersScreen2.routeName);
+      // }
+
 
 
     });
@@ -104,6 +108,12 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
           icon: Icon(Icons.people), //
           label: 'Customers',
         ),
+
+        BottomNavigationBarItem(
+          icon: Icon(Icons.supervised_user_circle), //
+          label: 'Customers',
+        ),
+
 
         // BottomNavigationBarItem(
         //     icon: Icon(Icons.supervisor_account_outlined),

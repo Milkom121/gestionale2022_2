@@ -1,30 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:gestionale2022_2/models/users_types.dart';
-import 'package:gestionale2022_2/pages/customers_page/all_customers_screen_logic.dart';
 
 import '../../models/reservation.dart';
 class AllReservationsLogic extends ChangeNotifier {
   static final List<Reservation> _allReservations = [
-    Reservation(
-      customer: AllCustomersLogic().allCustomers[0],
-        discount: 1,
-        beachChairs: 1,
-        beachBundle: [4, 6],
-        idToken: 'idToken',
-        date: '2022-04-07',
-        daySlot: 'entire',
-        tickets: 1,
-        totalCost: 37),
-    Reservation(
-        customer: AllCustomersLogic().allCustomers[1],
-        discount: 1,
-        beachChairs: 1,
-        beachBundle: [5, 7],
-        idToken: 'idToken',
-        date: '2022-04-07',
-        daySlot: 'entire',
-        tickets: 1,
-        totalCost: 37),
+
   ];
 
   List<Reservation> get getAllReservations {

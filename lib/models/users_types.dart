@@ -32,16 +32,17 @@ static Map<String, dynamic> toMap(CustomerDB customer) => <String, dynamic>{
       'phone_number': customer.phoneNumber,
     };
 
-//TODO: sistemare quanto segue
-static CustomerDB fromMap(Map<String, dynamic> customerMap) => CustomerDB(
-      id: customerMap['id'],
-      name: customerMap['name'],
-      surname: customerMap['surname'],
-      email: customerMap['email'],
-      phoneNumber: customerMap['phone_number'],
-    );
 
+  factory CustomerDB.fromMap(Map<String, dynamic> json) => CustomerDB(
+      id: json["idToken"].toString(),
+      name: json["name"],
+      surname: json["surname"],
+      email: json["email"],
+      phoneNumber: json["phoneNumber"].toString());
 }
+
+
+
 
 
 

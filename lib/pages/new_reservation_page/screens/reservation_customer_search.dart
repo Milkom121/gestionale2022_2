@@ -22,7 +22,7 @@ class _ReservationCustomerSearchState extends State<ReservationCustomerSearch> {
   void initState() {
     // TODO: implement initState
     final _allCustomerLogicProvider =
-        Provider.of<AllCustomersLogic>(context, listen: false);
+        Provider.of<AllCustomersScreenLogic>(context, listen: false);
     _allCustomerLogicProvider.initialShowedCustomers();
     super.initState();
   }
@@ -31,7 +31,7 @@ class _ReservationCustomerSearchState extends State<ReservationCustomerSearch> {
   Widget build(BuildContext context) {
     var _allReservationsProvider = Provider.of<AllReservationsLogic>(context);
     var _newReservationProvider = Provider.of<NewReservationFormLogic>(context);
-    return Consumer<AllCustomersLogic>(
+    return Consumer<AllCustomersScreenLogic>(
       builder: (context, _allCustomersLogic, child) =>
           // Future.delayed(Duration.zero, () {
           //   //your code goes here
