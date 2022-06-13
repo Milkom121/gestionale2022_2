@@ -71,14 +71,15 @@ class Reservation {
     //      }
      //TODO: capire perchè non va
 
-
+    List<String> beachBundleListString = (map['beachBundle'].split(","));
+    List<int> beachBundleListStringtoListInt = beachBundleListString.map(int.parse).toList();
     return Reservation(
     date: map['date'].toString(),
     daySlot: map['daySlot'], //entire, half, late
     tickets: int.parse(map['tickets']),
     discount: int.parse(map['discount']),
     beachChairs: int.parse(map['beachChairs']),
-    beachBundle: json.decode(map['beachBundle']) ,
+    beachBundle: beachBundleListStringtoListInt ,//TODO: non funziona, trovare soluzione per convertire string '4,5,6' in list
     totalCost: int.parse(map['totalCost']),
     customerId: map['customerId']
     );}
