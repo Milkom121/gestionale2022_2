@@ -16,8 +16,9 @@ class AllCustomersScreen extends StatefulWidget {
 }
 
 class _AllCustomersScreenState extends State<AllCustomersScreen> {
-  final int screenIndex = 2;
 
+  final int screenIndex = 2;
+  final TextEditingController? _searchController = TextEditingController();
 
 
   @override
@@ -27,7 +28,8 @@ class _AllCustomersScreenState extends State<AllCustomersScreen> {
     Provider.of<AllCustomersScreenLogic>(context, listen: false);
     // _allCustomerLogicProvider.initialShowedCustomers();
     super.initState();
-    AllCustomersScreenLogic.futureCustomers = _allCustomerLogicProvider.fetchCustomerDB();
+    //AllCustomersScreenLogic.futureCustomers = _allCustomerLogicProvider.fetchCustomerDB();
+    _allCustomerLogicProvider.convertFutureCustomerDBToList();
 
   }
 
@@ -37,9 +39,9 @@ class _AllCustomersScreenState extends State<AllCustomersScreen> {
     var _allReservationsProvider = Provider.of<AllReservationsLogic>(context);
     return Consumer<AllCustomersScreenLogic>(
         builder: (context, _allCustomersLogic, child) {
-          Future.delayed(Duration.zero, () {
-            //your code goes here
-          });
+          // Future.delayed(Duration.zero, () {
+          //   //your code goes here
+          // });
 
           return Scaffold(
             bottomNavigationBar: AppNavigationBar(screenIndex),
@@ -54,6 +56,7 @@ class _AllCustomersScreenState extends State<AllCustomersScreen> {
                     height: 20,
                   ),
                   TextField(
+                    controller: _searchController,
                     onChanged: (value) => _allCustomersLogic.runFilter(value),
                     decoration: const InputDecoration(
                         labelText: 'Search',
@@ -63,82 +66,118 @@ class _AllCustomersScreenState extends State<AllCustomersScreen> {
                     height: 20,
                   ),
                   Expanded(
-                    child: FutureBuilder<List<CustomerDB>>(
+                    child:
+
+                        //Todo: la ricerca funziona e quando si cancella vengono mostrat correttamente tutti i customers, però alla prima apertura risulta "not found" e non so perché
+                    ///############CODICE DA SISTEMARE, ISOLARE E FATTORIZZARE############
+
+                    (_allCustomersLogic.foundCustomers.isEmpty&&_searchController !=null)
+
+                        ?
+
+                    //allCustomersView
+                    FutureBuilder<List<CustomerDB>>(
                       future: AllCustomersScreenLogic.futureCustomers,
-                      builder: (context, snapshot) {
+
+                      builder:  (context, snapshot) {
                         if (snapshot.hasData) {
                           return ListView.builder(
-                            itemCount: snapshot.data!.length,
-                            itemBuilder: (_, index) => Container(
-                              margin:
-                              const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                              padding: const EdgeInsets.all(20.0),
-                              decoration: BoxDecoration(
-                                color: const Color(0xff97FFFF),
-                                borderRadius: BorderRadius.circular(15.0),
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    snapshot.data![index].name +
-                                        ' ' +
-                                        snapshot.data![index].surname,
-                                    style: const TextStyle(
-                                      fontSize: 18.0,
-                                      fontWeight: FontWeight.bold,
+                            itemCount: _allCustomersLogic.allCustomers.length,
+                            itemBuilder: (context, index) =>
+                                Card(
+                                  key: ValueKey(
+                                      _allCustomersLogic.allCustomers[index]
+                                          .id),
+                                  // color: Colors.amberAccent,
+                                  elevation: 4,
+                                  margin: const EdgeInsets.symmetric(
+                                      vertical: 10),
+                                  child: ListTile(
+                                    onTap: () {
+                                      // _allReservationsProvider
+                                      //     .getReservationByCustomer(
+                                      //     _allCustomersLogic
+                                      //         .allCustomers[index]);
+                                      // Navigator.push(
+                                      //   context,
+                                      //   MaterialPageRoute(
+                                      //       builder: (context) =>
+                                      //           CustomerDetailViewScreen(
+                                      //               customerDB: _allCustomersLogic
+                                      //                   .allCustomers[index])),
+                                      // );
+                                    },
+                                    leading: Text(
+                                      (index + 1).toString(),
+                                      style: const TextStyle(fontSize: 24),
                                     ),
+                                    title: Text(_allCustomersLogic
+                                        .allCustomers[index]
+                                        .returnNameAndSurname),
+                                    subtitle: Text(
+                                        '${_allCustomersLogic
+                                            .allCustomers[index].phoneNumber
+                                            .toString()} '),
                                   ),
-                                  const SizedBox(height: 10),
-                                  Text(snapshot.data![index].email),
-                                  Text(snapshot.data![index].phoneNumber),
-                                ],
-                              ),
-                            ),
+                                ),
                           );
                         } else {
-                          return const Center(child: CircularProgressIndicator());
+                          return const Center(
+                              child: CircularProgressIndicator());
                         }
-                      },
-                    ),
-                    // _allCustomersLogic.foundCustomers.isNotEmpty
-                    //     ? ListView.builder(
-                    //   itemCount: _allCustomersLogic.foundCustomers.length,
-                    //   itemBuilder: (context, index) => Card(
-                    //     key: ValueKey(
-                    //         _allCustomersLogic.foundCustomers[index].id),
-                    //     // color: Colors.amberAccent,
-                    //     elevation: 4,
-                    //     margin: const EdgeInsets.symmetric(vertical: 10),
-                    //     child: ListTile(
-                    //       onTap: () {
-                    //         _allReservationsProvider.getReservationByCustomer(
-                    //             _allCustomersLogic.foundCustomers[index]);
-                    //         Navigator.push(
-                    //           context,
-                    //           MaterialPageRoute(
-                    //               builder: (context) =>
-                    //                   CustomerDetailViewScreen(
-                    //                       customerDB: _allCustomersLogic
-                    //                           .foundCustomers[index])),
-                    //         );
-                    //       },
-                    //       leading: Text(
-                    //         (index + 1).toString(),
-                    //         style: const TextStyle(fontSize: 24),
-                    //       ),
-                    //       title: Text(_allCustomersLogic
-                    //           .foundCustomers[index].returnNameAndSurname),
-                    //       subtitle: Text(
-                    //           '${_allCustomersLogic.foundCustomers[index].phoneNumber.toString()} '),
-                    //     ),
-                    //   ),
-                    // )
-                    //     : const Text(
-                    //   'No results found',
-                    //   style: TextStyle(fontSize: 24),
-                    // ),
+                      })
+
+
+                        :
+
+                    (_allCustomersLogic.foundCustomers.isNotEmpty)
+
+                        ?
+
+                    //foundCustomers view
+                    ListView.builder(
+                      itemCount: _allCustomersLogic.foundCustomers.length,
+                      itemBuilder: (context, index) => Card(
+                        key: ValueKey(
+                            _allCustomersLogic.foundCustomers[index].id),
+                        // color: Colors.amberAccent,
+                        elevation: 4,
+                        margin: const EdgeInsets.symmetric(vertical: 10),
+                        child: ListTile(
+                          onTap: () {
+                            // _allReservationsProvider.getReservationByCustomer(
+                            //     _allCustomersLogic.foundCustomers[index]);
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //       builder: (context) =>
+                            //           CustomerDetailViewScreen(
+                            //               customerDB: _allCustomersLogic
+                            //                   .foundCustomers[index])),
+                            // );
+                          },
+                          leading: Text(
+                            (index + 1).toString(),
+                            style: const TextStyle(fontSize: 24),
+                          ),
+                          title: Text(_allCustomersLogic
+                              .foundCustomers[index].returnNameAndSurname),
+                          subtitle: Text(
+                              '${_allCustomersLogic.foundCustomers[index].phoneNumber.toString()} '),
+                        ),
+                      ),
+                    )
+
+                        :
+
+                    const Text(
+                      'No results found',
+                      style: TextStyle(fontSize: 24),
+                    )
+
+                    ///############ FINE CODICE DA SISTEMARE, ISOLARE E FATTORIZZARE############
+
+
                   ),
                 ],
               ),

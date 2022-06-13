@@ -234,7 +234,7 @@ class NewReservationScreen extends StatelessWidget {
                             /// delle prenotazioni.
 
                             AllReservationsLogic().addNewReservation(
-                                Reservation.mapToReservation(
+                                Reservation.fromMap(
                                     NewReservationFormLogic.reservationMap));
 
                             _newReservationFormLogic.restoreReservationMap();

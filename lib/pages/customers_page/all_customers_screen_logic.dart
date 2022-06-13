@@ -25,8 +25,10 @@ class AllCustomersScreenLogic with ChangeNotifier {
     }
   }
 
-void convertFutureCustomerDBListToList() async {
+void convertFutureCustomerDBToList() async {
+    futureCustomers = fetchCustomerDB();
     allCustomers = [... await futureCustomers];
+
 }
 
     //var url = Uri.https('192.168.178.74', '/api/customers', );//{'q': '{http}'}
@@ -80,3 +82,7 @@ void convertFutureCustomerDBListToList() async {
     notifyListeners();
   }
 }
+
+
+
+
