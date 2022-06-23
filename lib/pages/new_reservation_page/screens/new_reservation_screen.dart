@@ -4,17 +4,27 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:gestionale2022_2/pages/new_reservation_page/screens/reservation_customer_search.dart';
 import 'package:provider/provider.dart';
 
-import '../../../models/reservation.dart';
-import '../../all_reservations_page/all_reservations_logic.dart';
 import '../new_reservation_form_logic.dart';
 import '../widgets/beach_bundle_form.dart';
 import '../widgets/inc_dec_widget.dart';
 
-class NewReservationScreen extends StatelessWidget {
+
+
+
+//TODO: fare in modo che vengano richiamati i dati dal backend anche  in questa schermata
+//TODO: fare in modo che il customer selezionato venga riportato nella schermata
+
+
+class NewReservationScreen extends StatefulWidget {
   NewReservationScreen({Key? key}) : super(key: key);
 
   static const routeName = '/NewReservationScreen';
 
+  @override
+  State<NewReservationScreen> createState() => _NewReservationScreenState();
+}
+
+class _NewReservationScreenState extends State<NewReservationScreen> {
   final int screenIndex = 1;
 
   final _formKey = GlobalKey<FormBuilderState>();
@@ -39,6 +49,7 @@ class NewReservationScreen extends StatelessWidget {
                   children: [
                     ///CUSTOMER
                     TextFormField(
+                      key: UniqueKey(),
                      initialValue: _newReservationFormLogic.reservationCustomerNameAndSurname,
                       readOnly: true,
                       decoration:
@@ -210,7 +221,7 @@ class NewReservationScreen extends StatelessWidget {
                             child: Text(
                               '€ ' +
                                   NewReservationFormLogic
-                                      .reservationMap['total_cost']
+                                      .reservationMap['totalCost']
                                       .toString(),
                               style: const TextStyle(fontSize: 40),
                             ),
@@ -220,6 +231,7 @@ class NewReservationScreen extends StatelessWidget {
                         //const SizedBox(width: 50),
 
                         ElevatedButton(
+
                           onPressed: () {
                             print(_newReservationFormLogic.reservationCustomerNameAndSurname);
                             _newReservationFormLogic.calculateTotalCost();
@@ -233,9 +245,12 @@ class NewReservationScreen extends StatelessWidget {
                             /// che posso a sua volta passare al metodo setter addNewReservation della classe AllReservationLogic che lo aggiungerà alla lista
                             /// delle prenotazioni.
 
-                            AllReservationsLogic().addNewReservation(
-                                Reservation.fromMap(
-                                    NewReservationFormLogic.reservationMap));
+
+                            //TODO: aggiusta questo metodo per aggiungere la nuova prenotazione (nel file new_reservation_logic.dart)
+                            NewReservationFormLogic().addNewReservation(
+                                // Reservation.fromMap(
+                                //     NewReservationFormLogic.reservationMap),
+                            );
 
                             _newReservationFormLogic.restoreReservationMap();
                             _newReservationFormLogic.restoreReservationCustomerNameAndSurname();

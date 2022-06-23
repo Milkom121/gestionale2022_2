@@ -7,6 +7,7 @@ class Reservation {
    // -> '6c84fb90-12c4-11e1-840d-7b25c5ee775a'
 
   //final Customer customer;
+  final String customerId;
   final String date;
   final String daySlot; //entire, half, late
   final int tickets;
@@ -15,7 +16,6 @@ class Reservation {
   final List<int>? beachBundle ;
   final int totalCost;
 
-  final String customerId;
 
   Reservation(
 
@@ -69,17 +69,17 @@ class Reservation {
     //  for (var element in list) {
     //        list.add(element);
     //      }
-     //TODO: capire perchè non va
 
-    List<String> beachBundleListString = (map['beachBundle'].split(","));
-    List<int> beachBundleListStringtoListInt = beachBundleListString.map(int.parse).toList();
+
+    List<String> beachBundleListString = (map['beachBundle'].split(","));// creo una List<String> con i dati che mi servono
+    List<int> beachBundleListStringtoListInt = beachBundleListString.map(int.parse).toList();//converto in List<int>
     return Reservation(
     date: map['date'].toString(),
     daySlot: map['daySlot'], //entire, half, late
     tickets: int.parse(map['tickets']),
     discount: int.parse(map['discount']),
     beachChairs: int.parse(map['beachChairs']),
-    beachBundle: beachBundleListStringtoListInt ,//TODO: non funziona, trovare soluzione per convertire string '4,5,6' in list
+    beachBundle: beachBundleListStringtoListInt ,
     totalCost: int.parse(map['totalCost']),
     customerId: map['customerId']
     );}

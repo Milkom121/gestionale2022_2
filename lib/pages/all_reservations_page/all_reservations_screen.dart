@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../common_widgets/app_navigation_bar.dart';
 import '../all_reservations_page/all_reservations_logic.dart';
+import '../new_reservation_page/screens/new_reservation_screen.dart';
 
 class AllReservationsScreen extends StatefulWidget {
   const AllReservationsScreen({Key? key}) : super(key: key);
@@ -45,6 +46,27 @@ class _AllReservationsScreenState extends State<AllReservationsScreen> {
 
           return Scaffold(
             bottomNavigationBar: AppNavigationBar(screenIndex),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                showModalBottomSheet<dynamic>(
+                    isScrollControlled: true,
+                    context: context,
+                    builder: (BuildContext bc) {
+                      return Wrap(children: <Widget>[NewReservationScreen()]);
+                    });
+                // showModalBottomSheet<void>(
+                //   context: context,
+                //   builder: (BuildContext context) {
+                //     return NewReservationScreen();
+                //   },
+                // );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) =>  NewReservationScreen()),
+                // );
+              },
+              child: const Icon(Icons.add),
+            ),
             appBar: AppBar(
               title: const Text('Customers'),
             ),
@@ -85,6 +107,7 @@ class _AllReservationsScreenState extends State<AllReservationsScreen> {
                                 itemCount: _allReservationsLogic.allReservations.length,
                                 itemBuilder: (context, index) =>
                                     Card(
+
                                       key: ValueKey(
                                           _allReservationsLogic.allReservations[index]
                                               .customerId),

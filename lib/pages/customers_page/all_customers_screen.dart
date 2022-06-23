@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../../common_widgets/app_navigation_bar.dart';
 import '../../models/users_types.dart';
 import '../all_reservations_page/all_reservations_logic.dart';
+import '../customer_detail_view/customer_detail_view_screen.dart';
 import 'all_customers_screen_logic.dart';
 
 class AllCustomersScreen extends StatefulWidget {
@@ -29,7 +30,7 @@ class _AllCustomersScreenState extends State<AllCustomersScreen> {
     // _allCustomerLogicProvider.initialShowedCustomers();
     super.initState();
     //AllCustomersScreenLogic.futureCustomers = _allCustomerLogicProvider.fetchCustomerDB();
-    _allCustomerLogicProvider.convertFutureCustomerDBToList();
+    _allCustomerLogicProvider.convertFutureListOfCustomerDBToList();
 
   }
 
@@ -94,18 +95,15 @@ class _AllCustomersScreenState extends State<AllCustomersScreen> {
                                       vertical: 10),
                                   child: ListTile(
                                     onTap: () {
-                                      // _allReservationsProvider
-                                      //     .getReservationByCustomer(
-                                      //     _allCustomersLogic
-                                      //         .allCustomers[index]);
-                                      // Navigator.push(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //       builder: (context) =>
-                                      //           CustomerDetailViewScreen(
-                                      //               customerDB: _allCustomersLogic
-                                      //                   .allCustomers[index])),
-                                      // );
+                                       String id = _allCustomersLogic.allCustomers[index].id;
+                                       print(id);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                CustomerDetailViewScreen(searchString: id),
+                                        ),
+                                      );
                                     },
                                     leading: Text(
                                       (index + 1).toString(),

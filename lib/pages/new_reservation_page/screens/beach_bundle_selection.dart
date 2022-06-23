@@ -46,7 +46,7 @@ class BeachBundleSelection extends StatelessWidget {
                                     .contains(index + 1)
                                 ? Colors.red
                                 : NewReservationFormLogic
-                                        .reservationMap['beach_bundle']
+                                        .reservationMap['beachBundle']
                                         .contains(index + 1)
                                     ? Colors.green
                                     : Colors.blue,

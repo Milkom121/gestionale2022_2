@@ -13,7 +13,7 @@ class AllReservationsLogic with ChangeNotifier {
 
   List<Reservation> allReservations = [];
 
-
+///TODO: creare il file utils.dart in network per gestire le connessioni al backend
   Future<List<Reservation>> fetchReservations() async {
     final response = await http.get(Uri.parse('https://192.168.178.74:5000/api/reservations'));
     if (response.statusCode == 200) {
@@ -65,17 +65,17 @@ class AllReservationsLogic with ChangeNotifier {
   }
 
 
-  void addNewReservation(Reservation reservation) {
-    allReservations.add(reservation);
-    // print("Numero prenotazioni attualmente presenti: " +
-    //     getAllReservations.length.toString());
-    // print('Data dell\'ultima prenotazione: ' +
-    //     getAllReservations[getAllReservations.length - 1].date);
-    // print('Sono state prenotati le seguenti postazioni: ' +
-    //     getAllBeachBundleReserved.toString());
-
-    notifyListeners();
-  }
+  // void addNewReservation(Reservation reservation) {
+  //   allReservations.add(reservation);
+  //   // print("Numero prenotazioni attualmente presenti: " +
+  //   //     getAllReservations.length.toString());
+  //   // print('Data dell\'ultima prenotazione: ' +
+  //   //     getAllReservations[getAllReservations.length - 1].date);
+  //   // print('Sono state prenotati le seguenti postazioni: ' +
+  //   //     getAllBeachBundleReserved.toString());
+  //
+  //   notifyListeners();
+  // }
 
 
   // This function is called whenever the text field changes

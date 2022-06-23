@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
-import 'package:gestionale2022_2/models/users_types.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+
+import '../../models/reservation.dart';
 
 class NewReservationFormLogic extends ChangeNotifier {
 
@@ -31,28 +35,53 @@ class NewReservationFormLogic extends ChangeNotifier {
     notifyListeners();
   }
 
+
+
   static Map<String, dynamic> reservationMap = {
-    'customer' : CustomerDB,
-    'id_token': '',
+    'customerId' : '', //TODO: capire cosa mettere come customerId
     'date': '',
-    'day_slot': 'entire', //entire, half, late
+    'daySlot': 'entire', //entire, half, late
     'tickets': 0,
     'discount': 0,
-    'beach_chairs': 0,
-    'beach_bundle': List<int>.empty(growable: true), // guardare minuto 22 di lezione con Michele del giorno 27/04/22
-    'total_cost': 0,
+    'beachChairs': 0,
+    'beachBundle': List<int>.empty(growable: true), // guardare minuto 22 di lezione con Michele del giorno 27/04/22
+    'totalCost': 0,
   };
+
+  Future<List<Reservation>> addNewReservation() async {
+    //TODO: aggiungere le variabili per prendere i dati della nuova prenotazione e costruire l'url corretto
+
+    String customerId = reservationMap['customerid'].toString();
+    String date = reservationMap['date'];
+    String daySlot = reservationMap['daySlot'];
+    String tickets = reservationMap['tickets'].toString();
+    String discount = reservationMap['discount'].toString();
+    String beachChairs = reservationMap['beachChairs'].toString();
+    String  beachBundleList = reservationMap['beachBundle'].toString();//TODO: occorre trovare il modo di eliminare le [] dai beach bundle (es: '[4,5,6]'-> '4,5,6')
+    String beachBundle = beachBundleList.replaceAll('[', '').replaceAll(']', '');
+    String totalCost = reservationMap['totalCost'].toString();
+
+
+    final response = await http.get(Uri.parse('https://192.168.178.74:5000/api/newReservation?customerId=$customerId&discount=$discount&beachChairs=$beachChairs&beachBundle=$beachBundle&date=$date&daySlot=$daySlot&tickets=$tickets&totalCost=$totalCost'));//TODO: modificare per creare una nuova reservation
+    if (response.statusCode == 200) {
+      final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
+      return parsed.map<Reservation>((json) => Reservation.fromMap(json)).toList();
+    } else {
+      print(response.statusCode);
+      throw Exception('Failed to load customers');
+    }
+  }
 
   void  restoreReservationMap() {
     reservationMap = {
-      'id_token': '',
+      'idToken': '',
       'date': '',
-      'day_slot': 'entire', //entire, half, late
+      'daySlot': 'entire', //entire, half, late
       'tickets': 0,
       'discount': 0,
-      'beach_chairs': 0,
-      'beach_bundle': List<int>.empty(growable: true),
-      'total_cost': 0,
+      'beachChairs': 0,
+      'beachBundle': List<int>.empty(growable: true),
+      'totalCost': 0,
     };
     notifyListeners();
   }
@@ -60,7 +89,7 @@ class NewReservationFormLogic extends ChangeNotifier {
   //int _totalCost = 0;
 
   List<int> get getBeachBundleList {
-    List<int> list = [...reservationMap['beach_bundle']];
+    List<int> list = [...reservationMap['beachBundle']];
     return list;
   }
 
@@ -68,7 +97,7 @@ class NewReservationFormLogic extends ChangeNotifier {
   ///CODICE SPERIMENTALE - creerò dei getter per ogni variabile che mio occorre dalla prenotationMap///
 
   set setTotalCost(int totalCost) {
-    reservationMap['total_cost'] = totalCost;
+    reservationMap['totalCost'] = totalCost;
   }
 
   void setDiscountToZero(){
@@ -82,7 +111,7 @@ class NewReservationFormLogic extends ChangeNotifier {
   }
 
   String get getDaySlot {
-    String value = reservationMap['day_slot'];
+    String value = reservationMap['daySlot'];
     return value;
   }
 
@@ -97,12 +126,12 @@ class NewReservationFormLogic extends ChangeNotifier {
   }
 
   int get getBeachChairs {
-    int value = reservationMap['beach_chairs'];
+    int value = reservationMap['beachChairs'];
     return value;
   }
 
   int get getTotalCost {
-    int value = reservationMap['total_cost'];
+    int value = reservationMap['totalCost'];
     return value;
   }
 
@@ -182,20 +211,20 @@ class NewReservationFormLogic extends ChangeNotifier {
 
   void addBeachBundle(int beacBundleNumber) {
     if (getBeachBundleList.contains(beacBundleNumber + 1) == false) {
-      reservationMap['beach_bundle'].add(beacBundleNumber + 1);
+      reservationMap['beachBundle'].add(beacBundleNumber + 1);
     }
     notifyListeners();
   }
 
   void removeBeachBundle(int beacBundleNumber) {
     if (getBeachBundleList.contains(beacBundleNumber + 1)) {
-      reservationMap['beach_bundle'].remove(beacBundleNumber + 1);
+      reservationMap['beachBundle'].remove(beacBundleNumber + 1);
     }
     notifyListeners();
   }
 
   void removeAllBeachBundle() {
-    reservationMap['beach_bundle'].clear();
+    reservationMap['beachBundle'].clear();
   }
 
   // void notifyListener() {
@@ -206,6 +235,7 @@ class NewReservationFormLogic extends ChangeNotifier {
     reservationMap[key] = value;
     notifyListeners();
   }
+
 
 
 }

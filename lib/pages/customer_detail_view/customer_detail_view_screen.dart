@@ -1,3 +1,82 @@
+import 'package:flutter/material.dart';
+import 'package:gestionale2022_2/models/users_types.dart';
+import 'package:gestionale2022_2/pages/customer_detail_view/customer_detail_view_screen_logic.dart';
+import 'package:provider/provider.dart';
+class CustomerDetailViewScreen extends StatefulWidget {
+  const CustomerDetailViewScreen({Key? key,  required this.searchString}) : super(key: key);
+
+
+
+  final String searchString;
+
+  @override
+  State<CustomerDetailViewScreen> createState() => _CustomerDetailViewScreenState();
+}
+
+class _CustomerDetailViewScreenState extends State<CustomerDetailViewScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    final _customerDetailViewScreenLogicProvider =
+    Provider.of<CustomerDetailViewScreenLogic>(context, listen: false);
+    _customerDetailViewScreenLogicProvider.resolveFutureCustomerDB(widget.searchString);
+  }
+  @override
+
+  Widget build(BuildContext context) {
+
+
+    return Scaffold(
+      appBar: AppBar(),
+      body: FutureBuilder<CustomerDB>(
+          future: CustomerDetailViewScreenLogic.futureCustomers,
+          builder:  (context, snapshot) {
+            if (snapshot.hasData) {
+            CustomerDB? customerDB = CustomerDetailViewScreenLogic.customerDB;
+              return Column(
+                children: [
+                  Text(customerDB!.name)
+                ]
+
+              );
+            } else {
+              return const Center(
+                  child: CircularProgressIndicator());
+            }
+          }),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //
 //
 // import 'package:flutter/material.dart';

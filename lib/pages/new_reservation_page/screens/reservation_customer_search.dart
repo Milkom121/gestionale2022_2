@@ -72,10 +72,15 @@ class _ReservationCustomerSearchState extends State<ReservationCustomerSearch> {
                                         .reservationMap['customer'] =
                                     _allCustomersLogic.foundCustomers[index];
 
-                                _newReservationProvider
-                                    .setReservationCustomerNameAndSurname(
-                                        _allCustomersLogic.foundCustomers[index]
-                                            .returnNameAndSurname);
+                                // _newReservationProvider
+                                //     .setReservationCustomerNameAndSurname(
+                                //     _allCustomersLogic.foundCustomers[index].name + ' ' + _allCustomersLogic.foundCustomers[index].surname
+                                //         );
+
+                                // _newReservationProvider
+                                //     .setReservationCustomerNameAndSurname(
+                                //         CustomerDB.fromMap(CustomerDb._allCustomersLogic.foundCustomers[index]).returnNameAndSurname
+                                //             ); //TODO: modificato da .returnNameAndSurname ad .id
 
                                 Navigator.pop(context);
                               },

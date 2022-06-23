@@ -25,7 +25,7 @@ class AllCustomersScreenLogic with ChangeNotifier {
     }
   }
 
-void convertFutureCustomerDBToList() async {
+void convertFutureListOfCustomerDBToList() async {
     futureCustomers = fetchCustomerDB();
     allCustomers = [... await futureCustomers];
 
