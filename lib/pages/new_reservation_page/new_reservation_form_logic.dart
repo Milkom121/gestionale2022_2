@@ -1,12 +1,12 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
-import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 import '../../models/reservation.dart';
+import '../../network/DAO.dart';
 
 class NewReservationFormLogic extends ChangeNotifier {
+
+  final DAO _dao = DAO();
 
   int ticketWeekEntirePrice = 8;
   int ticketWeekHalfPrice = 5;
@@ -38,7 +38,7 @@ class NewReservationFormLogic extends ChangeNotifier {
 
 
   static Map<String, dynamic> reservationMap = {
-    'customerId' : '', //TODO: capire cosa mettere come customerId
+    'customerId' : '',
     'date': '',
     'daySlot': 'entire', //entire, half, late
     'tickets': 0,
@@ -49,32 +49,14 @@ class NewReservationFormLogic extends ChangeNotifier {
   };
 
   Future<List<Reservation>> addNewReservation() async {
-    //TODO: aggiungere le variabili per prendere i dati della nuova prenotazione e costruire l'url corretto
+    print('ciao' + reservationMap.toString());
+    return _dao.addNewReservation(reservationMap);
 
-    String customerId = reservationMap['customerid'].toString();
-    String date = reservationMap['date'];
-    String daySlot = reservationMap['daySlot'];
-    String tickets = reservationMap['tickets'].toString();
-    String discount = reservationMap['discount'].toString();
-    String beachChairs = reservationMap['beachChairs'].toString();
-    String  beachBundleList = reservationMap['beachBundle'].toString();//TODO: occorre trovare il modo di eliminare le [] dai beach bundle (es: '[4,5,6]'-> '4,5,6')
-    String beachBundle = beachBundleList.replaceAll('[', '').replaceAll(']', '');
-    String totalCost = reservationMap['totalCost'].toString();
-
-
-    final response = await http.get(Uri.parse('https://192.168.178.74:5000/api/newReservation?customerId=$customerId&discount=$discount&beachChairs=$beachChairs&beachBundle=$beachBundle&date=$date&daySlot=$daySlot&tickets=$tickets&totalCost=$totalCost'));//TODO: modificare per creare una nuova reservation
-    if (response.statusCode == 200) {
-      final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
-      return parsed.map<Reservation>((json) => Reservation.fromMap(json)).toList();
-    } else {
-      print(response.statusCode);
-      throw Exception('Failed to load customers');
-    }
   }
 
   void  restoreReservationMap() {
     reservationMap = {
-      'idToken': '',
+      'customerId': '',
       'date': '',
       'daySlot': 'entire', //entire, half, late
       'tickets': 0,

@@ -2,11 +2,12 @@ import 'package:count_stepper/count_stepper.dart';
 import 'package:flutter/material.dart';
 
 class IncDecWidget extends StatefulWidget {
-  IncDecWidget({Key? key, required this.onChanged, required this.icon, required this.title }) : super(key: key);
+  IncDecWidget({Key? key, required this.onChanged, required this.icon, required this.title, required this.currentValue }) : super(key: key);
 
   final Function onChanged;
   Icon icon;
   Text title;
+  int currentValue;
 
   @override
   State<IncDecWidget> createState() => _IncDecWidgetState();
@@ -31,7 +32,7 @@ class _IncDecWidgetState extends State<IncDecWidget> {
           child: CountStepper(
 
             iconColor: Theme.of(context).primaryColor,
-            defaultValue: 0,
+            defaultValue: widget.currentValue,
             // max: 100,
             min: 0,
             iconDecrementColor: Colors.red,

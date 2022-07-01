@@ -1,32 +1,61 @@
 ///ATTUALMENMTE QUESTO FILE FUNGE DA TEST PER IL RECUPERO DEI DATI DAL BACKEND
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:gestionale2022_2/models/reservation.dart';
-import 'package:http/http.dart' as http;
+import 'package:gestionale2022_2/network/DAO.dart';
 
 class AllReservationsLogic with ChangeNotifier {
 
+
   static late Future<List<Reservation>> futureReservations;
+
+  final DAO _dao = DAO();
+
+  String searchingCustomerName= '';
+  String searchingDate = '';
+
+  bool isSearching = false;
 
   List<Reservation> foundReservations = [];
 
   List<Reservation> allReservations = [];
 
 ///TODO: creare il file utils.dart in network per gestire le connessioni al backend
-  Future<List<Reservation>> fetchReservations() async {
-    final response = await http.get(Uri.parse('https://192.168.178.74:5000/api/reservations'));
-    if (response.statusCode == 200) {
-      final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
-      return parsed.map<Reservation>((json) => Reservation.fromMap(json)).toList();
-    } else {
-      print(response.statusCode);
-      throw Exception('Failed to load customers');
-    }
+//   Future<List<Reservation>> fetchReservations() async {
+//     final response = await http.get(Uri.parse('https://192.168.178.74:5000/api/reservations'));
+//     if (response.statusCode == 200) {
+//       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
+//       return parsed.map<Reservation>((json) => Reservation.fromMap(json)).toList();
+//     } else {
+//       print(response.statusCode);
+//       throw Exception('Failed to load customers');
+//     }
+//   }
+
+  String getReservationCustomerNameById (String id) {
+    //TODO: implementare il recupero del nome e cognome del customer partendo dall'id
+    return  'ciao';
+  }
+
+   void setSearchingCustomerName (String name){
+    searchingCustomerName = name;
+    notifyListeners();
+  }
+
+  void setSearchingDate (String date){
+    searchingDate = date;
+    notifyListeners();
+  }
+
+  void setSearchingToDefault(){
+     searchingCustomerName = '';
+     searchingDate = '';
+     foundReservations = [];
+     isSearching = false;
+     notifyListeners();
   }
 
   void convertFutureReservationsToList() async {
-    futureReservations = fetchReservations();
+    futureReservations = _dao.fetchAllReservations();
     allReservations = [... await futureReservations];
 
   }
@@ -59,7 +88,7 @@ class AllReservationsLogic with ChangeNotifier {
   //}
 
 
-  void initialShowedCustomers() {
+  void initialShowedReservations() {
     foundReservations = allReservations;
 
   }
@@ -79,11 +108,12 @@ class AllReservationsLogic with ChangeNotifier {
 
 
   // This function is called whenever the text field changes
-  void runFilter(String enteredKeyword) {
+  void searchById(String enteredKeyword) {
     List<Reservation> results = [];
     if (enteredKeyword.isEmpty) {
       // if the search field is empty or only contains white-space, we'll display all users
       results = allReservations;
+
     } else {
       results = allReservations
           .where((reservation) => reservation.customerId
@@ -92,6 +122,25 @@ class AllReservationsLogic with ChangeNotifier {
           .toList();
       // we use the toLowerCase() method to make it case-insensitive
     }
+    isSearching = true;
+    foundReservations = results;
+    notifyListeners();
+  }
+
+  void searchByDate(String enteredKeyword){
+    List<Reservation> results = [];
+    if (enteredKeyword.isEmpty) {
+      // if the search field is empty or only contains white-space, we'll display all users
+      results = allReservations;
+    } else {
+      results = allReservations
+          .where((reservation) => reservation.date
+          .toLowerCase()
+          .contains(enteredKeyword.toLowerCase()))
+          .toList();
+      // we use the toLowerCase() method to make it case-insensitive
+    }
+    isSearching = true;
     foundReservations = results;
     notifyListeners();
   }

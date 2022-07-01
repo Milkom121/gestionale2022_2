@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:gestionale2022_2/pages/new_reservation_page/new_reservation_form_logic.dart';
 import 'package:provider/provider.dart';
 
+import '../../../models/users_types.dart';
 import '../../all_reservations_page/all_reservations_logic.dart';
 import '../../customers_page/all_customers_screen_logic.dart';
 
 class ReservationCustomerSearch extends StatefulWidget {
   const ReservationCustomerSearch({
-    Key? key,
+    Key? key, required this.whichCaseIsThis,
   }) : super(key: key);
+
+  final String whichCaseIsThis; //newReservation oppure allReservations
 
   //final Function(String title) getReservationNameAndSurname;
 
@@ -19,12 +22,23 @@ class ReservationCustomerSearch extends StatefulWidget {
 
 class _ReservationCustomerSearchState extends State<ReservationCustomerSearch> {
   @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   final _allCustomerLogicProvider =
+  //       Provider.of<AllCustomersScreenLogic>(context, listen: false);
+  //   _allCustomerLogicProvider.initialShowedCustomers();
+  //   super.initState();
+  // }
   void initState() {
-    // TODO: implement initState
+    // TODO: capire perchè non carica i custoemrs la prima volta che si apre la scheda
     final _allCustomerLogicProvider =
         Provider.of<AllCustomersScreenLogic>(context, listen: false);
+
     _allCustomerLogicProvider.initialShowedCustomers();
+
+    _allCustomerLogicProvider.convertFutureListOfCustomerDBToList();
     super.initState();
+    setState(() {});
   }
 
   @override
@@ -58,43 +72,87 @@ class _ReservationCustomerSearchState extends State<ReservationCustomerSearch> {
                 ),
                 Expanded(
                   child: _allCustomersLogic.foundCustomers.isNotEmpty
-                      ? ListView.builder(
-                          itemCount: _allCustomersLogic.foundCustomers.length,
-                          itemBuilder: (context, index) => Card(
-                            key: ValueKey(
-                                _allCustomersLogic.foundCustomers[index].id),
-                            // color: Colors.amberAccent,
-                            elevation: 4,
-                            margin: const EdgeInsets.symmetric(vertical: 10),
-                            child: ListTile(
-                              onTap: () {
-                                NewReservationFormLogic
-                                        .reservationMap['customer'] =
-                                    _allCustomersLogic.foundCustomers[index];
+                      ? FutureBuilder<List<CustomerDB>>(
+                          future: AllCustomersScreenLogic.futureCustomers,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return ListView.builder(
+                                itemCount:
+                                    _allCustomersLogic.foundCustomers.length,
+                                itemBuilder: (context, index) => Card(
+                                  key: ValueKey(_allCustomersLogic
+                                      .foundCustomers[index].id),
+                                  // color: Colors.amberAccent,
+                                  elevation: 4,
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  child: ListTile(
+                                    onTap: () {
+                                      ///codice per gestire la nuova prenotazione
+                                      if (widget.whichCaseIsThis == 'newReservation'){
 
-                                // _newReservationProvider
-                                //     .setReservationCustomerNameAndSurname(
-                                //     _allCustomersLogic.foundCustomers[index].name + ' ' + _allCustomersLogic.foundCustomers[index].surname
-                                //         );
+                                        NewReservationFormLogic
+                                          .reservationMap['customerId'] =
+                                          _allCustomersLogic
+                                              .foundCustomers[index].id;
 
-                                // _newReservationProvider
-                                //     .setReservationCustomerNameAndSurname(
-                                //         CustomerDB.fromMap(CustomerDb._allCustomersLogic.foundCustomers[index]).returnNameAndSurname
-                                //             ); //TODO: modificato da .returnNameAndSurname ad .id
+                                      // _newReservationProvider
+                                      //     .setReservationCustomerNameAndSurname(
+                                      //     _allCustomersLogic.foundCustomers[index].name + ' ' + _allCustomersLogic.foundCustomers[index].surname
+                                      //         );
 
-                                Navigator.pop(context);
-                              },
-                              leading: Text(
-                                (index + 1).toString(),
-                                style: const TextStyle(fontSize: 24),
-                              ),
-                              title: Text(_allCustomersLogic
-                                  .foundCustomers[index].returnNameAndSurname),
-                              subtitle: Text(
-                                  '${_allCustomersLogic.foundCustomers[index].phoneNumber.toString()} '),
-                            ),
-                          ),
-                        )
+                                      _newReservationProvider
+                                          .setReservationCustomerNameAndSurname(
+                                          _allCustomersLogic
+                                              .foundCustomers[index]
+                                              .name +
+                                              ' ' +
+                                              _allCustomersLogic
+                                                  .foundCustomers[index]
+                                                  .surname);
+
+                                      print(NewReservationFormLogic
+                                          .reservationMap);
+
+                                        // _newReservationProvider
+                                        //     .setReservationCustomerNameAndSurname(
+                                        //         CustomerDB.fromMap(CustomerDb._allCustomersLogic.foundCustomers[index]).returnNameAndSurname
+                                        //             ); //TODO: modificato da .returnNameAndSurname ad .id
+                                      }
+
+
+                                      else
+
+
+                                      ///codice per gestire la ricerca delle prenotazioni
+                                      if (widget.whichCaseIsThis == 'allReservations'){
+                                        _allReservationsProvider.searchById(_allCustomersLogic
+                                            .foundCustomers[index].id);
+                                        _allReservationsProvider.setSearchingCustomerName(_allCustomersLogic
+                                            .foundCustomers[index].name + ' ' + _allCustomersLogic
+                                            .foundCustomers[index].surname);
+                                      }
+
+
+                                      Navigator.pop(context);
+                                    },
+                                    leading: Text(
+                                      (index + 1).toString(),
+                                      style: const TextStyle(fontSize: 24),
+                                    ),
+                                    title: Text(_allCustomersLogic
+                                        .foundCustomers[index]
+                                        .returnNameAndSurname),
+                                    subtitle: Text(
+                                        '${_allCustomersLogic.foundCustomers[index].phoneNumber.toString()} '),
+                                  ),
+                                ),
+                              );
+                            } else {
+                              return const Center(
+                                  child: CircularProgressIndicator());
+                            }
+                          })
                       : const Text(
                           'No results found',
                           style: TextStyle(fontSize: 24),

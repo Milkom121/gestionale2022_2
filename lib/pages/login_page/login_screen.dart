@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gestionale2022_2/models/users_types.dart';
+import 'package:gestionale2022_2/pages/customers_page/all_customers_screen_logic.dart';
 
 import '../../network/authentication.dart';
 import '../home_page.dart';
@@ -149,7 +150,10 @@ class LoginScreen extends StatelessWidget {
                       FloatingActionButton(
                         child: const  Text('HOMEPAGE'),
                         backgroundColor: Colors.red,
-                        onPressed: (){Navigator.pushNamed(
+                        onPressed: (){
+
+                          AllCustomersScreenLogic().convertFutureListOfCustomerDBToList();
+                          Navigator.pushNamed(
                           context, HomePage.routeName);}
                       )
                     ],

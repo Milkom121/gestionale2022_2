@@ -72,14 +72,14 @@ class Reservation {
 
 
     List<String> beachBundleListString = (map['beachBundle'].split(","));// creo una List<String> con i dati che mi servono
-    List<int> beachBundleListStringtoListInt = beachBundleListString.map(int.parse).toList();//converto in List<int>
+    List<int> beachBundleListStringToListInt = beachBundleListString.map(int.parse).toList();//converto in List<int>
     return Reservation(
     date: map['date'].toString(),
     daySlot: map['daySlot'], //entire, half, late
     tickets: int.parse(map['tickets']),
     discount: int.parse(map['discount']),
     beachChairs: int.parse(map['beachChairs']),
-    beachBundle: beachBundleListStringtoListInt ,
+    beachBundle: beachBundleListStringToListInt ,
     totalCost: int.parse(map['totalCost']),
     customerId: map['customerId']
     );}

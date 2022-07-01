@@ -1,11 +1,11 @@
 ///ATTUALMENMTE QUESTO FILE FUNGE DA TEST PER IL RECUPERO DEI DATI DAL BACKEND
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:gestionale2022_2/models/users_types.dart';
-import 'package:http/http.dart' as http;
+import 'package:gestionale2022_2/network/DAO.dart';
 
 class AllCustomersScreenLogic with ChangeNotifier {
+
+  final DAO _dao =DAO();
 
   static late Future<List<CustomerDB>> futureCustomers;
 
@@ -14,19 +14,9 @@ class AllCustomersScreenLogic with ChangeNotifier {
    List<CustomerDB> allCustomers = [];
 
 
-  Future<List<CustomerDB>> fetchCustomerDB() async {
-    final response = await http.get(Uri.parse('https://192.168.178.74:5000/api/customers'));
-    if (response.statusCode == 200) {
-      final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
-      return parsed.map<CustomerDB>((json) => CustomerDB.fromMap(json)).toList();
-    } else {
-      print(response.statusCode);
-      throw Exception('Failed to load customers');
-    }
-  }
 
 void convertFutureListOfCustomerDBToList() async {
-    futureCustomers = fetchCustomerDB();
+    futureCustomers = _dao.fetchAllCustomerDB();
     allCustomers = [... await futureCustomers];
 
 }

@@ -16,8 +16,10 @@ import '../widgets/inc_dec_widget.dart';
 
 
 class NewReservationScreen extends StatefulWidget {
-  NewReservationScreen({Key? key}) : super(key: key);
-
+  NewReservationScreen({Key? key,
+   //required this.onClose
+  }) : super(key: key);
+  //final Function() onClose;
   static const routeName = '/NewReservationScreen';
 
   @override
@@ -60,7 +62,7 @@ class _NewReservationScreenState extends State<NewReservationScreen> {
                         showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return const ReservationCustomerSearch();
+                              return  const ReservationCustomerSearch(whichCaseIsThis: 'newReservation');
                             });
                       },
                     ),
@@ -84,7 +86,7 @@ class _NewReservationScreenState extends State<NewReservationScreen> {
                         ///DATA///
                         Expanded(
                           child: DateTimePicker(
-                              initialDate: DateTime.now(),
+                              initialValue: NewReservationFormLogic.reservationMap['date'] ,
                               type: DateTimePickerType.date,
                               dateMask: 'dd MMM, yyyy',
                               // controller: _timeController,
@@ -128,7 +130,7 @@ class _NewReservationScreenState extends State<NewReservationScreen> {
                                 _discountVisibility = true;
                               }
                               _newReservationFormLogic.addValueToReservation(
-                                  'day_slot',
+                                  'daySlot',
                                   value); //salvo il valore nell'apposito campo della map nel file logic.dart
                               _newReservationFormLogic.calculateTotalCost();
                             },
@@ -145,6 +147,7 @@ class _NewReservationScreenState extends State<NewReservationScreen> {
                         ///Tickets
                         Expanded(
                           child: IncDecWidget(
+                            currentValue:  NewReservationFormLogic.reservationMap['tickets'] ?? 0 ,//NewReservationFormLogic.reservationMap['tickets']== null? 0 : NewReservationFormLogic.reservationMap['tickets'] ,
                             title: const Text('Tickets'),
                             icon: const Icon(Icons.people),
                             onChanged: (value) {
@@ -162,6 +165,7 @@ class _NewReservationScreenState extends State<NewReservationScreen> {
                           visible: _discountVisibility,
                           child: Expanded(
                             child: IncDecWidget(
+                              currentValue: NewReservationFormLogic.reservationMap['discounts'] ?? 0 ,
                               title: const Text('Discounts'),
                               icon: const Icon(Icons.euro),
                               onChanged: (value) {
@@ -184,11 +188,12 @@ class _NewReservationScreenState extends State<NewReservationScreen> {
                         ///BEACH CHAIRS
                         Expanded(
                           child: IncDecWidget(
+                              currentValue:  NewReservationFormLogic.reservationMap['beachChairs'] ?? 0 ,
                               title: const Text('Beach chairs'),
                               icon: const Icon(Icons.chair_alt),
                               onChanged: (value) {
                                 _newReservationFormLogic.addValueToReservation(
-                                    'beach_chairs', value);
+                                    'beachChairs', value);
                                 // print(ReservationFormLogic.reservationMap['beach_chairs']);
                                 _newReservationFormLogic.calculateTotalCost();
                                 //_reservationFormLogic.calculateTotalCost();
@@ -233,9 +238,9 @@ class _NewReservationScreenState extends State<NewReservationScreen> {
                         ElevatedButton(
 
                           onPressed: () {
-                            print(_newReservationFormLogic.reservationCustomerNameAndSurname);
+                           // print(_newReservationFormLogic.reservationCustomerNameAndSurname);
                             _newReservationFormLogic.calculateTotalCost();
-                            print(NewReservationFormLogic.reservationMap);
+                           // print(NewReservationFormLogic.reservationMap);
 
 
                             //TODO aggiungere logica per aggiungere la prenotazione a all_prenotation_logic
@@ -253,12 +258,14 @@ class _NewReservationScreenState extends State<NewReservationScreen> {
                             );
 
                             _newReservationFormLogic.restoreReservationMap();
-                            _newReservationFormLogic.restoreReservationCustomerNameAndSurname();
+                            //_newReservationFormLogic.restoreReservationCustomerNameAndSurname();
                             Navigator.pop(context);
-                            print(NewReservationFormLogic.reservationMap);
+                            //print(NewReservationFormLogic.reservationMap);
 
                             // Navigator.pushNamed(
                             //     context, AllReservationsScreen.routeName);
+
+                            //widget.onClose; // la chiamata alla callback
                           },
                           child: const Text('Save'),
                         ),
