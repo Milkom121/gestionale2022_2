@@ -71,7 +71,7 @@ class DAO extends ChangeNotifier{
     }
   }
 
-///======================metodo di test per recuperare un CustoemrDB========================
+///metodo di test per recuperare un CustoemrDB
   Future<CustomerDB> findCustomerDB(String field, String value) async {
     final response = await http.get(Uri.parse('$_addressDB api/getCustomer?field=$field&value=$value'));
     if (response.statusCode == 200) {
@@ -80,6 +80,17 @@ class DAO extends ChangeNotifier{
     } else {
       print(response.statusCode);
       throw Exception('Failed to load customers');
+    }
+  }
+
+  Future<CustomerDB> getCustomerById(String value) async {
+    final response = await http.get(Uri.parse('$_addressDB api/getCustomerById?value=$value'));
+    if (response.statusCode == 200) {
+      final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
+      return parsed.map<CustomerDB>((json) => CustomerDB.fromMap(json));
+    } else {
+      print(response.statusCode);
+      throw Exception('Failed to load customers by id');
     }
   }
 

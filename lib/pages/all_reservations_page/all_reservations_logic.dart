@@ -1,7 +1,9 @@
 ///ATTUALMENMTE QUESTO FILE FUNGE DA TEST PER IL RECUPERO DEI DATI DAL BACKEND
 import 'package:flutter/cupertino.dart';
 import 'package:gestionale2022_2/models/reservation.dart';
+import 'package:gestionale2022_2/models/users_types.dart';
 import 'package:gestionale2022_2/network/DAO.dart';
+import 'package:gestionale2022_2/pages/customers_page/all_customers_screen_logic_2.dart';
 
 class AllReservationsLogic with ChangeNotifier {
 
@@ -9,6 +11,7 @@ class AllReservationsLogic with ChangeNotifier {
   static late Future<List<Reservation>> futureReservations;
 
   final DAO _dao = DAO();
+  final AllCustomersLogic _allCustomersLogic = AllCustomersLogic();
 
   String searchingCustomerName= '';
   String searchingDate = '';
@@ -31,10 +34,14 @@ class AllReservationsLogic with ChangeNotifier {
 //     }
 //   }
 
-  String getReservationCustomerNameById (String id) {
-    //TODO: implementare il recupero del nome e cognome del customer partendo dall'id
-    return  'ciao';
-  }
+  // Future<String> getReservationCustomerNameById (String id)   async {
+  //   //TODO: capire per quale astrocazzo di motivo questo metodo restituisce 404 ma lo stesso url su Postman funziona
+  //   CustomerDB customerDB =  await _dao.getCustomerById(id);
+  //   String completeCustomerName = customerDB.name + ' ' + customerDB.surname;
+  //   return completeCustomerName ;
+  // }
+
+
 
    void setSearchingCustomerName (String name){
     searchingCustomerName = name;

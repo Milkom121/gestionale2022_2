@@ -18,7 +18,6 @@ class AllCustomersScreenLogic with ChangeNotifier {
 void convertFutureListOfCustomerDBToList() async {
     futureCustomers = _dao.fetchAllCustomerDB();
     allCustomers = [... await futureCustomers];
-
 }
 
     //var url = Uri.https('192.168.178.74', '/api/customers', );//{'q': '{http}'}
@@ -53,6 +52,20 @@ void convertFutureListOfCustomerDBToList() async {
     foundCustomers = allCustomers;
 
   }
+
+String getCompleteCustomerNameById(String id){
+  CustomerDB _customerDB;
+  for (CustomerDB customer in allCustomers){
+    if (customer.id == id){
+      _customerDB = customer;
+      String completeCustomerName;
+      completeCustomerName = _customerDB.name + ' ' + _customerDB.surname;
+      return completeCustomerName;
+    }
+
+  }
+  return 'nothing found';
+}
 
   // This function is called whenever the text field changes
   void runFilter(String enteredKeyword) {
