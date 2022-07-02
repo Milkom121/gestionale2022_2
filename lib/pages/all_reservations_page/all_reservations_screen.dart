@@ -2,6 +2,7 @@ import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gestionale2022_2/models/reservation.dart';
+import 'package:gestionale2022_2/pages/reservation_view_page/reservation_view_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../common_widgets/app_navigation_bar.dart';
@@ -37,23 +38,19 @@ class _AllReservationsScreenState extends State<AllReservationsScreen> {
 
     //AllCustomersScreenLogic.futureCustomers = _allCustomerLogicProvider.fetchCustomerDB();
     _allReservationsLogicProvider.convertFutureReservationsToList();
-
-
   }
 
   @override
   Widget build(BuildContext context) {
-
     final _allCustomerLogicProvider =
     Provider.of<AllCustomersScreenLogic>(context, listen: false);
 
-    
     return Consumer<AllReservationsLogic>(
         builder: (context, _allReservationsLogic, child) {
           // Future.delayed(Duration.zero, () {
           //   //your code goes here
           // });
-  
+
           return Scaffold(
             key: UniqueKey(),
             bottomNavigationBar: AppNavigationBar(screenIndex),
@@ -103,8 +100,7 @@ class _AllReservationsScreenState extends State<AllReservationsScreen> {
                         suffixIcon: InkWell(
                             child: const Icon(Icons.clear, size: 14),
                             onTap: () {
-                              _allReservationsLogic
-                                  .setSearchingToDefault();
+                              _allReservationsLogic.setSearchingToDefault();
                             })),
 
                     onTap: () {
@@ -126,8 +122,7 @@ class _AllReservationsScreenState extends State<AllReservationsScreen> {
                           suffixIcon: InkWell(
                               child: const Icon(Icons.clear, size: 14),
                               onTap: () {
-                                _allReservationsLogic
-                                    .setSearchingToDefault();
+                                _allReservationsLogic.setSearchingToDefault();
                               })),
                       initialValue: _allReservationsLogic.searchingDate,
                       type: DateTimePickerType.date,
@@ -136,16 +131,14 @@ class _AllReservationsScreenState extends State<AllReservationsScreen> {
                       //initialValue: _initialValue,
                       firstDate: DateTime(2018),
                       lastDate: DateTime(2100),
-
-
                       onChanged: (day) {
                         _allReservationsLogic.searchByDate(day);
                         _allReservationsLogic.setSearchingDate(day);
                         print(day);
                       }),
-
-                  const SizedBox(height: 20,),
-
+                  const SizedBox(
+                    height: 20,
+                  ),
                   Expanded(
                       child:
 
@@ -162,46 +155,64 @@ class _AllReservationsScreenState extends State<AllReservationsScreen> {
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               return ListView.builder(
-                                itemCount: _allReservationsLogic
-                                    .allReservations.length,
-                                itemBuilder: (context, index) =>
-                                    Card(
-                                      key: ValueKey(_allReservationsLogic
-                                          .allReservations[index].customerId),
+                                  itemCount: _allReservationsLogic
+                                      .allReservations.length,
+                                  itemBuilder: (context, index) {
+                                    final String customerCompleteName = _allCustomerLogicProvider
+                                        .getCompleteCustomerNameById(
+                                        _allReservationsLogic
+                                            .allReservations[
+                                        index]
+                                            .customerId);
+                                    return Card(
+                                      key: ValueKey(
+                                          _allReservationsLogic
+                                              .allReservations[index]
+                                              .customerId),
                                       // color: Colors.amberAccent,
                                       elevation: 4,
-                                      margin: const EdgeInsets.symmetric(
+                                      margin:
+                                      const EdgeInsets.symmetric(
                                           vertical: 10),
                                       child: ListTile(
                                         onTap: () {
-                                          // _allReservationsLogic
-                                          //     .getReservationByCustomer(
-                                          //     _allCustomersLogic
-                                          //         .allCustomers[index]);
-                                          // Navigator.push(
-                                          //   context,
-                                          //   MaterialPageRoute(
-                                          //       builder: (context) =>
-                                          //           CustomerDetailViewScreen(
-                                          //               customerDB: _allCustomersLogic
-                                          //                   .allCustomers[index])),
-                                          // );
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ReservationViewScreen(
+                                                      reservation:
+                                                      _allReservationsLogic
+                                                          .allReservations[
+                                                      index],
+                                                      customerCompleteName:
+                                                      customerCompleteName),
+                                            ),
+                                          );
                                         },
                                         leading: Text(
                                           (index + 1).toString(),
-                                          style: const TextStyle(fontSize: 24),
+                                          style: const TextStyle(
+                                              fontSize: 24),
                                         ),
-                                        title: Text(_allReservationsLogic
-                                            .allReservations[index].date),
+                                        title: Text(
+                                            _allReservationsLogic
+                                                .allReservations[index]
+                                                .date),
                                         subtitle: Text(
-                                            '${_allCustomerLogicProvider.getCompleteCustomerNameById(_allReservationsLogic.allReservations[index].customerId)} '),
+                                            '${_allCustomerLogicProvider
+                                                .getCompleteCustomerNameById(
+                                                _allReservationsLogic
+                                                    .allReservations[index]
+                                                    .customerId)} '),
                                         trailing: Text(
                                             '${_allReservationsLogic
                                                 .allReservations[index]
                                                 .totalCost.toString()} '),
                                       ),
-                                    ),
-                              );
+                                    );
+
+                                  });
                             } else {
                               return const Center(
                                   child: CircularProgressIndicator());
@@ -212,41 +223,53 @@ class _AllReservationsScreenState extends State<AllReservationsScreen> {
 
                       //foundCustomers view
                       ListView.builder(
-                        itemCount: _allReservationsLogic
-                            .foundReservations.length,
-                        itemBuilder: (context, index) =>
-                            Card(
-                              key: ValueKey(_allReservationsLogic
-                                  .foundReservations[index].customerId),
-                              // color: Colors.amberAccent,
-                              elevation: 4,
-                              margin: const EdgeInsets.symmetric(
-                                  vertical: 10),
-                              child: ListTile(
-                                onTap: () {
-                                  // _allReservationsLogic.getReservationByCustomer(
-                                  //     _allCustomersLogic.foundCustomers[index]);
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //       builder: (context) =>
-                                  //           CustomerDetailViewScreen(
-                                  //               customerDB: _allCustomersLogic
-                                  //                   .foundCustomers[index])),
-                                  //);
+                          itemCount: _allReservationsLogic
+                              .foundReservations.length,
+                          itemBuilder: (context, index) {
+                            final String customerCompleteName = _allCustomerLogicProvider
+                                .getCompleteCustomerNameById(
+                                _allReservationsLogic
+                                    .foundReservations[
+                                index]
+                                    .customerId);
 
-                                },
-                                leading: Text(
-                                  (index + 1).toString(),
-                                  style: const TextStyle(fontSize: 24),
+                            return
+                              Card(
+                                key: ValueKey(_allReservationsLogic
+                                    .foundReservations[index]
+                                    .customerId),
+                                // color: Colors.amberAccent,
+                                elevation: 4,
+                                margin: const EdgeInsets.symmetric(
+                                    vertical: 10),
+                                child: ListTile(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            ReservationViewScreen(
+                                                reservation:
+                                                _allReservationsLogic
+                                                    .foundReservations[
+                                                index],
+                                                customerCompleteName:
+                                                customerCompleteName),
+                                      ),
+                                    );
+                                  },
+                                  leading: Text(
+                                    (index + 1).toString(),
+                                    style: const TextStyle(
+                                        fontSize: 24),
+                                  ),
+                                  title: Text(_allReservationsLogic
+                                      .foundReservations[index].date),
+                                  subtitle: Text(customerCompleteName
+                                  ),
                                 ),
-                                title: Text(_allReservationsLogic
-                                    .foundReservations[index].date),
-                                subtitle: Text(
-                                    '${_allCustomerLogicProvider.getCompleteCustomerNameById(_allReservationsLogic.foundReservations[index].customerId)} '),
-
-                              ),
-                            ),
+                              );
+                          }
                       )
                           : (_allReservationsLogic
                           .foundReservations.isEmpty &&

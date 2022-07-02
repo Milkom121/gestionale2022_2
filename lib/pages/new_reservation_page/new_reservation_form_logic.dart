@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import '../../models/reservation.dart';
 import '../../network/DAO.dart';
 
-class NewReservationFormLogic extends ChangeNotifier {
+class NewReservationScreenLogic extends ChangeNotifier {
 
   final DAO _dao = DAO();
 

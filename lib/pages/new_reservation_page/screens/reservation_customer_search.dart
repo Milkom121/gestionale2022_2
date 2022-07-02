@@ -44,7 +44,7 @@ class _ReservationCustomerSearchState extends State<ReservationCustomerSearch> {
   @override
   Widget build(BuildContext context) {
     var _allReservationsProvider = Provider.of<AllReservationsLogic>(context);
-    var _newReservationProvider = Provider.of<NewReservationFormLogic>(context);
+    var _newReservationProvider = Provider.of<NewReservationScreenLogic>(context);
     return Consumer<AllCustomersScreenLogic>(
       builder: (context, _allCustomersLogic, child) =>
           // Future.delayed(Duration.zero, () {
@@ -91,7 +91,7 @@ class _ReservationCustomerSearchState extends State<ReservationCustomerSearch> {
                                       ///codice per gestire la nuova prenotazione
                                       if (widget.whichCaseIsThis == 'newReservation'){
 
-                                        NewReservationFormLogic
+                                        NewReservationScreenLogic
                                           .reservationMap['customerId'] =
                                           _allCustomersLogic
                                               .foundCustomers[index].id;
@@ -111,7 +111,7 @@ class _ReservationCustomerSearchState extends State<ReservationCustomerSearch> {
                                                   .foundCustomers[index]
                                                   .surname);
 
-                                      print(NewReservationFormLogic
+                                      print(NewReservationScreenLogic
                                           .reservationMap);
 
                                         // _newReservationProvider

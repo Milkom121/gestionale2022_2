@@ -27,7 +27,7 @@ class NewReservationScreen extends StatefulWidget {
 }
 
 class _NewReservationScreenState extends State<NewReservationScreen> {
-  final int screenIndex = 1;
+
 
   final _formKey = GlobalKey<FormBuilderState>();
 
@@ -37,9 +37,10 @@ class _NewReservationScreenState extends State<NewReservationScreen> {
 
     bool _discountVisibility = true;
     //CustomerDB _customerDB = NewReservationFormLogic.reservationMap['customer'] ;
-    return Consumer<NewReservationFormLogic>(
+    return Consumer<NewReservationScreenLogic>(
       builder: (context, _newReservationFormLogic, child) => Material(
         child: SingleChildScrollView(
+
           child: Padding(
             padding: const EdgeInsets.only(left: 15, right: 15, top: 8),
             child: FormBuilder(
@@ -86,7 +87,7 @@ class _NewReservationScreenState extends State<NewReservationScreen> {
                         ///DATA///
                         Expanded(
                           child: DateTimePicker(
-                              initialValue: NewReservationFormLogic.reservationMap['date'] ,
+                              initialValue: NewReservationScreenLogic.reservationMap['date'] ,
                               type: DateTimePickerType.date,
                               dateMask: 'dd MMM, yyyy',
                               // controller: _timeController,
@@ -147,7 +148,7 @@ class _NewReservationScreenState extends State<NewReservationScreen> {
                         ///Tickets
                         Expanded(
                           child: IncDecWidget(
-                            currentValue:  NewReservationFormLogic.reservationMap['tickets'] ?? 0 ,//NewReservationFormLogic.reservationMap['tickets']== null? 0 : NewReservationFormLogic.reservationMap['tickets'] ,
+                            currentValue:  NewReservationScreenLogic.reservationMap['tickets'] ?? 0 ,//NewReservationFormLogic.reservationMap['tickets']== null? 0 : NewReservationFormLogic.reservationMap['tickets'] ,
                             title: const Text('Tickets'),
                             icon: const Icon(Icons.people),
                             onChanged: (value) {
@@ -165,7 +166,7 @@ class _NewReservationScreenState extends State<NewReservationScreen> {
                           visible: _discountVisibility,
                           child: Expanded(
                             child: IncDecWidget(
-                              currentValue: NewReservationFormLogic.reservationMap['discounts'] ?? 0 ,
+                              currentValue: NewReservationScreenLogic.reservationMap['discounts'] ?? 0 ,
                               title: const Text('Discounts'),
                               icon: const Icon(Icons.euro),
                               onChanged: (value) {
@@ -188,7 +189,7 @@ class _NewReservationScreenState extends State<NewReservationScreen> {
                         ///BEACH CHAIRS
                         Expanded(
                           child: IncDecWidget(
-                              currentValue:  NewReservationFormLogic.reservationMap['beachChairs'] ?? 0 ,
+                              currentValue:  NewReservationScreenLogic.reservationMap['beachChairs'] ?? 0 ,
                               title: const Text('Beach chairs'),
                               icon: const Icon(Icons.chair_alt),
                               onChanged: (value) {
@@ -225,7 +226,7 @@ class _NewReservationScreenState extends State<NewReservationScreen> {
                           child: Center(
                             child: Text(
                               '€ ' +
-                                  NewReservationFormLogic
+                                  NewReservationScreenLogic
                                       .reservationMap['totalCost']
                                       .toString(),
                               style: const TextStyle(fontSize: 40),
@@ -252,7 +253,7 @@ class _NewReservationScreenState extends State<NewReservationScreen> {
 
 
                             //TODO: aggiusta questo metodo per aggiungere la nuova prenotazione (nel file new_reservation_logic.dart)
-                            NewReservationFormLogic().addNewReservation(
+                            NewReservationScreenLogic().addNewReservation(
                                 // Reservation.fromMap(
                                 //     NewReservationFormLogic.reservationMap),
                             );

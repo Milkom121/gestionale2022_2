@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:gestionale2022_2/pages/customer_detail_view/customer_detail_view_screen_logic.dart';
 import 'package:gestionale2022_2/pages/customers_page/all_customers_screen.dart';
 import 'package:gestionale2022_2/pages/customers_page/all_customers_screen_logic.dart';
+import 'package:gestionale2022_2/pages/new_customer_page/new_customer_screen_logic.dart';
 import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
@@ -40,7 +41,7 @@ Future<void> main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => NewReservationFormLogic(),
+          create: (_) => NewCustomerScreenLogic(),
         ),
         ChangeNotifierProvider(
           create: (_) => AllReservationsLogic(),
@@ -50,6 +51,12 @@ Future<void> main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => CustomerDetailViewScreenLogic(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => NewCustomerScreenLogic(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => NewReservationScreenLogic(),
         ),
 
 

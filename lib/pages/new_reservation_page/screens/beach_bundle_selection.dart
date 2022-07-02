@@ -11,7 +11,7 @@ class BeachBundleSelection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<NewReservationFormLogic>(
+    return Consumer<NewReservationScreenLogic>(
       builder: (context, _reservationFormLogic, child) => AlertDialog(
         title: const Center(child: Text('Pool Seats')),
         content: Column(
@@ -45,7 +45,7 @@ class BeachBundleSelection extends StatelessWidget {
                                     .getAllBeachBundleReserved
                                     .contains(index + 1)
                                 ? Colors.red
-                                : NewReservationFormLogic
+                                : NewReservationScreenLogic
                                         .reservationMap['beachBundle']
                                         .contains(index + 1)
                                     ? Colors.green

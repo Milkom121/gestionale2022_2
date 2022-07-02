@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gestionale2022_2/pages/customers_page/all_customers_screen_logic.dart';
+import 'package:gestionale2022_2/pages/new_customer_page/new_customer_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../common_widgets/app_navigation_bar.dart';
@@ -8,10 +9,6 @@ import '../../models/users_types.dart';
 import '../all_reservations_page/all_reservations_logic.dart';
 import '../customer_detail_view/customer_detail_view_screen.dart';
 import 'all_customers_screen_logic.dart';
-
-
-
-
 
 class AllCustomersScreen extends StatefulWidget {
   static const routeName = '/AllCustomersScreen';
@@ -46,6 +43,34 @@ class _AllCustomersScreenState extends State<AllCustomersScreen> {
       // });
 
       return Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            showModalBottomSheet<dynamic>(
+                isScrollControlled: true,
+                context: context,
+                builder: (BuildContext bc) {
+                  return Padding(
+                    padding: MediaQuery.of(context).viewInsets,
+                    child: Wrap(children: <Widget>[
+                      NewCustomerScreen(
+                          // onClose: () { setState(() { });},
+                          )
+                    ]),
+                  );
+                });
+            // showModalBottomSheet<void>(
+            //   context: context,
+            //   builder: (BuildContext context) {
+            //     return NewReservationScreen();
+            //   },
+            // );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(builder: (context) =>  NewReservationScreen()),
+            // );
+          },
+          child: const Icon(Icons.add),
+        ),
         bottomNavigationBar: AppNavigationBar(screenIndex),
         appBar: AppBar(
           title: const Text('Customers'),
@@ -225,7 +250,6 @@ class _AllCustomersScreenState extends State<AllCustomersScreen> {
 //    builder: (context, _allCUstomersLogic, child) {
 //      return ListView();
 // });
-
 
 //
 // class AllCustomersScreen extends StatefulWidget {

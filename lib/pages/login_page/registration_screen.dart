@@ -1,33 +1,3 @@
-// import 'package:flutter/material.dart';
-//
-// class RegistrationScreen extends StatelessWidget {
-//   final _formKey = GlobalKey<FormState>();
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(),
-//       body: SingleChildScrollView(
-//         child: Center(
-//           child: Form(
-//               key: _formKey,
-//               child: Column(
-//             children: [
-//               TextFormField(
-//
-//               )
-//             ],
-//           )),
-//         ),
-//       ),
-//     )
-//   }
-// }
-//
-//
-//
-//
-//
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -58,6 +28,8 @@ class RegistrationScreen extends StatelessWidget {
   final _focusPassword = FocusNode();
   final _focusRePassword = FocusNode();
 
+  RegistrationScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
@@ -79,7 +51,7 @@ class RegistrationScreen extends StatelessWidget {
               ),
               const CircleAvatar(
                 backgroundColor: Colors.blue,
-                radius: 100,
+                radius: 50,
               ),
               const SizedBox(
                 height: 30,

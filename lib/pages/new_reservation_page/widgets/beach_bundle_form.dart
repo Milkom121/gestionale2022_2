@@ -11,8 +11,8 @@ class BeachBundleForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<NewReservationFormLogic>(
-      create: (_) => NewReservationFormLogic(),
+    return ChangeNotifierProvider<NewReservationScreenLogic>(
+      create: (_) => NewReservationScreenLogic(),
       child: Expanded(
           child: Column(
         children: [
@@ -39,7 +39,7 @@ class BeachBundleForm extends StatelessWidget {
               padding: const EdgeInsets.only(left: 40.0),
               child: SizedBox(
                 height: 33,
-                child: Consumer<NewReservationFormLogic>(
+                child: Consumer<NewReservationScreenLogic>(
                     builder: (context, _newReservationFormLogic, child) {
                   return ListView.builder(
                     itemCount: _newReservationFormLogic.getBeachBundleList.length,

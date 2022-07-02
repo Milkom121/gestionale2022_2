@@ -2,10 +2,10 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
-
-import '../models/reservation.dart';
+import 'package:gestionale2022_2/pages/new_customer_page/new_customer_screen_logic.dart';
 import 'package:http/http.dart' as http;
 
+import '../models/reservation.dart';
 import '../models/users_types.dart';
 
 class DAO extends ChangeNotifier{
@@ -59,6 +59,28 @@ class DAO extends ChangeNotifier{
   }
 
   ///=========================CUSTOMERS DAO=======================================
+
+
+  Future<String> newCustomer() async{
+     Map map = NewCustomerScreenLogic.newCustomerMap;
+     String name = map['name'];
+     String surname = map['surname'];
+     String phoneNumber = map['phoneNumber'];
+     String email = map['email'];
+
+
+     final request = await http.get(Uri.parse('$_addressDB/api/newCustomer?name=$name&surname=$surname&phoneNumber=$phoneNumber&email=$email'),);//TODO: modificare per creare una nuova reservation
+     if (request.statusCode == 200) {
+       final response = request.body;
+       print(response);
+       return response;
+     } else {
+       print(request.statusCode);
+       throw Exception('Failed to add customer');
+     }
+
+  }
+
 
   Future<List<CustomerDB>> fetchAllCustomerDB() async {
     final response = await http.get(Uri.parse('$_addressDB/api/customers'));
